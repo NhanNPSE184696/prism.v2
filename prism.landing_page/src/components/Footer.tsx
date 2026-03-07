@@ -1,3 +1,4 @@
+import Logo from '../assets/Images/Logo.png';
 import './Footer.css';
 
 const Footer = () => {
@@ -7,7 +8,7 @@ const Footer = () => {
         <div className="footer-grid">
           <div className="footer-about">
             <div className="footer-logo">
-              <div className="footer-logo-icon">Ê</div>
+              <img src={Logo} alt="Êm Dạ Mode Logo" className="footer-logo-icon" />
               <span className="footer-logo-text">ÊM DẠ MODE</span>
             </div>
             <p className="footer-description">

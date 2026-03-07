@@ -216,7 +216,7 @@
   background-color: white;
   padding: 2rem;
   border-radius: 1.5rem;
-  box-shadow: 0 10px 30px -5px rgba(0, 0, 0, 0.05);
+  box-shadow: 0 10px 30px -5px rgba(163, 44, 24, 0.5);
   border: 1px solid #f8fafc;
   text-align: center;
   transition: all 0.3s ease;
@@ -379,10 +379,10 @@
 }
 
 .about-project-image {
-  width: 90%;
+  width: 100%;
   max-width: 400px;
   height: 100%;
-  max-height: 400px;
+  max-height: 450px;
   border-radius: 24px;
   overflow: hidden;
   box-shadow: 0 20px 40px rgba(0, 0, 0, 0.1);
@@ -402,6 +402,7 @@
   display: flex;
   flex-direction: column;
   gap: 1.5rem;
+  text-align: justify;
 }
 
 .about-project-title {
@@ -409,6 +410,17 @@
   font-weight: 900;
   color: #0f172a;
   margin: 0;
+  display: flex;
+  align-items: center;
+  gap: 1rem;
+}
+
+.title-bar {
+  width: 4px;
+  height: 2.5rem;
+  background: linear-gradient(180deg, #FFD200 0%, #E31E24 100%);
+  border-radius: 2px;
+  display: inline-block;
 }
 
 .about-project-tagline {
@@ -1090,4 +1102,224 @@
 
 .fab-button .material-symbols-outlined {
   font-size: 2rem;
+}
+
+/* Journey Section */
+.journey-section {
+  padding: 5rem 0;
+  background: linear-gradient(135deg, #fff9f0 0%, #fff5f7 100%);
+}
+
+.journey-grid {
+  display: grid;
+  grid-template-columns: repeat(auto-fit, minmax(300px, 1fr));
+  gap: 2rem;
+}
+
+.journey-card {
+  background: white;
+  padding: 2.5rem;
+  border-radius: 24px;
+  box-shadow: 0 4px 20px rgba(0, 0, 0, 0.08);
+  border: 1px solid rgba(0, 0, 0, 0.05);
+  transition: transform 0.3s ease, box-shadow 0.3s ease;
+}
+
+.journey-card:hover {
+  transform: translateY(-8px);
+  box-shadow: 0 12px 32px rgba(0, 0, 0, 0.12);
+}
+
+.journey-icon {
+  width: 64px;
+  height: 64px;
+  border-radius: 16px;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  margin-bottom: 1.5rem;
+}
+
+.journey-icon .material-symbols-outlined {
+  font-size: 32px;
+}
+
+.journey-icon-orange {
+  background: rgba(255, 210, 0, 0.2);
+  color: #FF8A00;
+}
+
+.journey-icon-red {
+  background: rgba(227, 30, 36, 0.15);
+  color: #E31E24;
+}
+
+.journey-icon-primary {
+  background: rgba(227, 30, 36, 0.2);
+  color: #E31E24;
+}
+
+.journey-title {
+  font-size: 1.5rem;
+  font-weight: 700;
+  margin-bottom: 0.25rem;
+  color: #1a1a1a;
+  text-align: left;
+}
+
+.journey-label {
+  font-size: 0.75rem;
+  font-weight: 700;
+  color: #999;
+  letter-spacing: 0.1em;
+  margin-bottom: 1rem;
+}
+
+.journey-description {
+  color: #666;
+  line-height: 1.6;
+  font-size: 0.95rem;
+  text-align: justify;
+}
+
+/* Creative Section */
+.creative-section {
+  padding: 5rem 0;
+  background-color: white;
+}
+
+.about-card {
+  background: white;
+  padding: 3rem;
+  border-radius: 24px;
+  box-shadow: 0 4px 20px rgba(163, 44, 24, 0.5);
+  border: 1px solid rgba(0, 0, 0, 0.05);
+}
+
+.about-card-title {
+  font-size: 1.75rem;
+  font-weight: 700;
+  margin-bottom: 2rem;
+  display: flex;
+  align-items: center;
+  gap: 1rem;
+  color: #1a1a1a;
+  margin-bottom: 0px;
+}
+
+.about-card-content {
+  display: flex;
+  flex-direction: column;
+  gap: 1.5rem;
+  color: #666;
+  line-height: 1.8;
+  font-size: 1.1rem;
+}
+
+.about-card-content p {
+  margin: 0;
+}
+
+.creative-header {
+  display: flex;
+  align-items: center;
+  gap: 1rem;
+  margin-bottom: 2rem;
+}
+
+.creative-icon {
+  background: linear-gradient(135deg, #FFD200 0%, #E31E24 100%);
+  color: white;
+  width: 48px;
+  height: 48px;
+  border-radius: 12px;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+}
+
+.creative-icon .material-symbols-outlined {
+  font-size: 24px;
+}
+
+.creative-slogan {
+  font-size: 1.15rem;
+  font-style: italic;
+}
+
+/* Team Section */
+.team-section {
+  padding: 5rem 0 8rem 0;
+  background: linear-gradient(135deg, #fff9f0 0%, #fff5f7 100%);
+}
+
+.team-grid {
+  display: grid;
+  grid-template-columns: repeat(auto-fit, minmax(280px, 1fr));
+  gap: 2rem;
+  margin-bottom: 2rem;
+}
+
+.team-grid-secondary {
+  max-width: 700px;
+  margin: 0 auto;
+  grid-template-columns: repeat(auto-fit, minmax(280px, 1fr));
+}
+
+.team-card {
+  background: white;
+  padding: 2.5rem;
+  border-radius: 24px;
+  box-shadow: 0 4px 20px rgba(163, 44, 24, 0.5);
+  border: 1px solid rgba(0, 0, 0, 0.05);
+  text-align: center;
+  transition: transform 0.3s ease, box-shadow 0.3s ease;
+}
+
+.team-card:hover {
+  transform: translateY(-4px);
+  box-shadow: 0 12px 32px rgba(0, 0, 0, 0.12);
+}
+
+.team-avatar {
+  width: 96px;
+  height: 96px;
+  border-radius: 50%;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  font-size: 2.5rem;
+  font-weight: 700;
+  color: white;
+  margin: 0 auto 1.5rem;
+}
+
+.team-avatar-primary {
+  background: linear-gradient(135deg, #FF8A00 0%, #E31E24 100%);
+}
+
+.team-avatar-orange {
+  background: linear-gradient(135deg, #FFD200 0%, #FF8A00 100%);
+}
+
+.team-name {
+  font-size: 1.25rem;
+  font-weight: 700;
+  margin-bottom: 0.5rem;
+  color: #1a1a1a;
+}
+
+.team-role {
+  color: #E31E24;
+  font-weight: 600;
+  font-size: 0.9rem;
+  margin-bottom: 1rem;
+}
+
+.text-highlight {
+  background: linear-gradient(135deg, #ff9408 0%, #95122c 100%);
+  -webkit-background-clip: text;
+  -webkit-text-fill-color: transparent;
+  background-clip: text;
+  font-weight: 600;
 }

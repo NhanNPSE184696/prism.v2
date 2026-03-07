@@ -1,22 +1,23 @@
 import { useEffect } from 'react';
 import { BrowserRouter as Router, Routes, Route, useLocation } from 'react-router-dom';
 import HomePage from './pages/HomePage';
-import AboutUs from './pages/AboutUs';
+// import AboutUs from './pages/AboutUs';
 import './App.css'
 
 function AppContent() {
   const location = useLocation();
 
   useEffect(() => {
-    // Ensure new route starts at top instantly
-    window.scrollTo(0, 0);
+    // Let HomePage handle all scrolling
+    // Do nothing here
   }, [location.pathname]);
 
   return (
     <div className="app">
       <Routes>
         <Route path="/" element={<HomePage />} />
-        <Route path="/about" element={<AboutUs />} />
+        <Route path="/aboutus" element={<HomePage />} />
+        {/* <Route path="/about" element={<AboutUs />} /> */}
       </Routes>
     </div>
   );

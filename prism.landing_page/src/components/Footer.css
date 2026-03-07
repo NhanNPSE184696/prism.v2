@@ -1,6 +1,6 @@
 .footer {
   background-color: white;
-  padding: 5rem 0;
+  padding: 4rem 0 3rem 0;
   border-top: 1px solid #f1f5f9;
 }
 
@@ -26,7 +26,7 @@
   display: grid;
   grid-template-columns: 1fr;
   gap: 3rem;
-  margin-bottom: 4rem;
+  margin-bottom: 2rem;
 }
 
 @media (min-width: 768px) {
@@ -54,16 +54,10 @@
 }
 
 .footer-logo-icon {
-  width: 32px;
-  height: 32px;
-  background-color: #E31E24;
+  width: 70px;
+  height: 70px;
   border-radius: 8px;
-  display: flex;
-  align-items: center;
-  justify-content: center;
-  color: white;
-  font-weight: bold;
-  font-size: 1.125rem;
+  object-fit: contain;
 }
 
 .footer-logo-text {
