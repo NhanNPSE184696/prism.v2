@@ -1,4 +1,5 @@
 import { useState, useEffect, useRef } from 'react';
+import emailjs from '@emailjs/browser';
 import './QandA.css';
 import professorImg from '../assets/Images/professor.png';
 import stomach1Img from '../assets/Images/stomach1.png';
@@ -105,6 +106,10 @@ const QandA = () => {
   const [currentIndex, setCurrentIndex] = useState(0);
   const [selectedQuestion, setSelectedQuestion] = useState<number | null>(null);
   const autoPlayRef = useRef<number | null>(null);
+  const [email, setEmail] = useState('');
+  const [question, setQuestion] = useState('');
+  const [isSubmitting, setIsSubmitting] = useState(false);
+  const [submitMessage, setSubmitMessage] = useState<{ type: 'success' | 'error', text: string } | null>(null);
 
   const questions = [
     "Đau dạ dày hay trào ngược khác nhau thế nào?",
@@ -260,6 +265,72 @@ https://nhathuoclongchau.com.vn/bai-viet/xuat-huyet-da-day-non-ra-mau-co-nguy-hi
     }, 2000);
   };
 
+  const handleSubmitQuestion = async (e: React.FormEvent) => {
+    e.preventDefault();
+    
+    // Validate form
+    if (!email.trim() || !question.trim()) {
+      setSubmitMessage({ type: 'error', text: 'Vui lòng nhập đầy đủ email và câu hỏi!' });
+      return;
+    }
+    
+    // Validate email format
+    const emailRegex = /^[^\s@]+@[^\s@]+\.[^\s@]+$/;
+    if (!emailRegex.test(email)) {
+      setSubmitMessage({ type: 'error', text: 'Email không hợp lệ!' });
+      return;
+    }
+    
+    setIsSubmitting(true);
+    setSubmitMessage(null);
+    
+    try {
+      // Get current timestamp
+      const now = new Date();
+      const receiveTime = now.toLocaleString('vi-VN', {
+        day: '2-digit',
+        month: '2-digit',
+        year: 'numeric',
+        hour: '2-digit',
+        minute: '2-digit',
+        second: '2-digit',
+        hour12: false
+      });
+      
+      // Send email using EmailJS
+      const result = await emailjs.send(
+        import.meta.env.VITE_EMAILJS_SERVICE_ID,
+        import.meta.env.VITE_EMAILJS_QA_TEMPLATE_ID,
+        {
+          from_email: email,
+          question: question,
+          receive_time: receiveTime,
+          reply_to: email,
+        },
+        import.meta.env.VITE_EMAILJS_PUBLIC_KEY
+      );
+      
+      if (result.status === 200) {
+        setSubmitMessage({ 
+          type: 'success', 
+          text: 'Câu hỏi của bạn đã được gửi thành công! Chúng tôi sẽ phản hồi trong 24h.' 
+        });
+        setEmail('');
+        setQuestion('');
+      }
+    } catch (error) {
+      console.error('EmailJS Error:', error);
+      setSubmitMessage({ 
+        type: 'error', 
+        text: 'Có lỗi xảy ra khi gửi câu hỏi. Vui lòng thử lại sau!' 
+      });
+    } finally {
+      setIsSubmitting(false);
+      // Clear message after 5 seconds
+      setTimeout(() => setSubmitMessage(null), 5000);
+    }
+  };
+
   // Auto-play effect
   useEffect(() => {
     autoPlayRef.current = setInterval(() => {
@@ -360,16 +431,39 @@ https://nhathuoclongchau.com.vn/bai-viet/xuat-huyet-da-day-non-ra-mau-co-nguy-hi
             <p className="qa-submit-subtitle">
               Nhập câu hỏi tại đây, tụi mình sẽ phản hồi qua email hoặc cập nhật lên danh sách nhé!
             </p>
-            <form className="qa-submit-form">
-              <input
-                className="qa-submit-input"
-                placeholder="Ví dụ: Đau thượng vị về đêm có nguy hiểm không?"
-                type="text"
-              />
-              <button className="qa-submit-button" type="button">
-                Gửi ngay <span className="material-symbols-outlined">send</span>
+            <form className="qa-submit-form" onSubmit={handleSubmitQuestion}>
+              <div className="qa-submit-inputs-wrapper">
+                <input
+                  className="qa-submit-input"
+                  placeholder="Email của bạn"
+                  type="email"
+                  value={email}
+                  onChange={(e) => setEmail(e.target.value)}
+                  disabled={isSubmitting}
+                />
+                <input
+                  className="qa-submit-input"
+                  placeholder="Ví dụ: Đau thượng vị về đêm có nguy hiểm không?"
+                  type="text"
+                  value={question}
+                  onChange={(e) => setQuestion(e.target.value)}
+                  disabled={isSubmitting}
+                />
+              </div>
+              <button 
+                className="qa-submit-button" 
+                type="submit"
+                disabled={isSubmitting}
+              >
+                {isSubmitting ? 'Đang gửi...' : 'Gửi ngay'} 
+                <span className="material-symbols-outlined">send</span>
               </button>
             </form>
+            {submitMessage && (
+              <div className={`qa-submit-message qa-submit-message-${submitMessage.type}`}>
+                {submitMessage.text}
+              </div>
+            )}
             <p className="qa-submit-note">
               Câu hỏi của bạn sẽ được đội ngũ chuyên gia phản hồi trong 24h.
             </p>

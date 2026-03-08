@@ -1,0 +1,255 @@
+<!DOCTYPE html>
+<html lang="vi">
+<head>
+<meta charset="UTF-8">
+<title>Câu hỏi mới từ khách hàng</title>
+
+<style>
+
+body{
+    margin:0;
+    padding:0;
+    background:#f3f4f6;
+    font-family: Arial, Helvetica, sans-serif;
+}
+
+.container{
+    max-width:600px;
+    margin:auto;
+    background:white;
+    border-radius:16px;
+    overflow:hidden;
+    box-shadow:0 10px 30px rgba(0,0,0,0.08);
+}
+
+/* HEADER */
+
+.header{
+    background:linear-gradient(135deg,#ff6b35,#f7931e);
+    text-align:center;
+    padding:40px 20px;
+    color:white;
+}
+
+.header-icon{
+    font-size:48px;
+    margin-bottom:10px;
+}
+
+.header-title{
+    font-size:26px;
+    font-weight:bold;
+    letter-spacing:1px;
+}
+
+.header-sub{
+    font-size:14px;
+    opacity:.9;
+    margin-top:6px;
+}
+
+/* BODY */
+
+.content{
+    padding:30px;
+}
+
+.greeting{
+    font-size:15px;
+    color:#374151;
+    margin-bottom:20px;
+    line-height:1.6;
+}
+
+.label{
+    font-size:12px;
+    font-weight:bold;
+    color:#6b7280;
+    margin-bottom:6px;
+    text-transform:uppercase;
+}
+
+.value{
+    background:#f9fafb;
+    padding:14px 16px;
+    border-radius:10px;
+    border-left:4px solid #ff6b35;
+    margin-bottom:18px;
+    font-size:14px;
+    color:#111827;
+}
+
+.question-box{
+    background:#fff7ed;
+    border:2px solid #ff6b35;
+    border-radius:12px;
+    padding:20px;
+    margin:20px 0;
+}
+
+.question-label{
+    font-size:13px;
+    font-weight:bold;
+    color:#ff6b35;
+    margin-bottom:12px;
+    display:flex;
+    align-items:center;
+    gap:8px;
+}
+
+.question-text{
+    font-size:15px;
+    color:#111827;
+    line-height:1.7;
+    font-weight:500;
+}
+
+/* INFO BOX */
+
+.note{
+    background:#ecfdf5;
+    border:1px solid #6ee7b7;
+    border-radius:10px;
+    padding:18px;
+    margin-top:20px;
+    font-size:13px;
+}
+
+.note-title{
+    font-weight:bold;
+    margin-bottom:8px;
+    color:#065f46;
+    display:flex;
+    align-items:center;
+    gap:6px;
+}
+
+.note-list{
+    margin-top:8px;
+    line-height:1.8;
+    color:#047857;
+}
+
+/* FOOTER */
+
+.footer{
+    background:#f9fafb;
+    text-align:center;
+    padding:25px;
+    border-top:1px solid #e5e7eb;
+}
+
+.footer-title{
+    font-weight:bold;
+    font-size:15px;
+    margin-bottom:6px;
+}
+
+.footer-text{
+    font-size:13px;
+    color:#6b7280;
+}
+
+.footer-contact{
+    margin-top:10px;
+    font-size:13px;
+}
+
+.footer-contact a{
+    color:#ff6b35;
+    text-decoration:none;
+}
+
+.timestamp{
+    background:#f3f4f6;
+    padding:10px;
+    border-radius:8px;
+    margin-top:15px;
+    font-size:12px;
+    color:#6b7280;
+    text-align:center;
+}
+
+</style>
+</head>
+
+<body>
+
+<div class="container">
+
+<!-- HEADER -->
+
+<div class="header">
+<div class="header-icon">❓</div>
+<div class="header-title">CÂU HỎI MỚI</div>
+<div class="header-sub">Êm Dạ Mode – Câu hỏi thường gặp về sức khỏe dạ dày</div>
+</div>
+
+<!-- BODY -->
+
+<div class="content">
+
+<div class="greeting">
+👋 Xin chào,<br><br>
+Bạn có một câu hỏi mới từ khách hàng cần được phản hồi trong vòng <b>24 giờ</b>.
+</div>
+
+<div class="label">📧 Email khách hàng</div>
+<div class="value">{{from_email}}</div>
+
+<div class="question-box">
+<div class="question-label">
+<span style="font-size:20px;">💭</span>
+<span>Câu hỏi của khách hàng</span>
+</div>
+<div class="question-text">{{question}}</div>
+</div>
+
+<div class="note">
+<div class="note-title">
+<span>✅</span>
+<span>Hướng dẫn xử lý</span>
+</div>
+
+<div class="note-list">
+• <b>Bước 1:</b> Đọc kỹ câu hỏi và nghiên cứu thông tin liên quan<br>
+• <b>Bước 2:</b> Soạn câu trả lời chuyên nghiệp, dễ hiểu, có nguồn tham khảo<br>
+• <b>Bước 3:</b> Reply trực tiếp email này để phản hồi khách hàng<br>
+• <b>Bước 4:</b> Cân nhắc thêm câu hỏi vào danh sách FAQ nếu phù hợp<br><br>
+⏱️ <b>Thời gian phản hồi cam kết: 24 giờ</b>
+</div>
+
+</div>
+
+<div class="timestamp">
+📅 Email nhận lúc: {{receive_time}} | Tự động gửi từ website Êm Dạ Mode
+</div>
+
+</div>
+
+<!-- FOOTER -->
+
+<div class="footer">
+
+<div class="footer-title">ÊM DẠ MODE</div>
+
+<div class="footer-text">
+Chiến dịch nâng cao nhận thức sức khỏe dạ dày
+</div>
+
+<div class="footer-contact">
+📧 <a href="mailto:prismproject.fptu@gmail.com">prismproject.fptu@gmail.com</a>
+<br>
+📞 <a href="tel:0815398633">0815 398 633</a>
+</div>
+
+<div class="footer-text" style="margin-top:12px;font-size:12px;">
+💡 <i>Hãy trả lời câu hỏi một cách chuyên môn và thân thiện</i>
+</div>
+
+</div>
+
+</div>
+
+</body>
+</html>
