@@ -28,7 +28,8 @@ const HomePage = () => {
     // Map pathname to section IDs
     const sectionMap: Record<string, string> = {
       '/aboutus': 'about',
-      '/qa': 'qa'
+      '/qa': 'qa',
+      '/test': 'test'
     };
 
     const sectionId = sectionMap[location.pathname];
@@ -82,6 +83,9 @@ const HomePage = () => {
           } else if (entry.target.id === 'qa' && location.pathname !== '/qa') {
             isNavigatingFromScrollSpy.current = true;
             navigate('/qa', { replace: true });
+          } else if (entry.target.id === 'test' && location.pathname !== '/test') {
+            isNavigatingFromScrollSpy.current = true;
+            navigate('/test', { replace: true });
           }
         }
       });
@@ -92,12 +96,16 @@ const HomePage = () => {
     // Observe sections
     const aboutSection = document.getElementById('about');
     const qaSection = document.getElementById('qa');
+    const testSection = document.getElementById('test');
     
     if (aboutSection) {
       observer.observe(aboutSection);
     }
     if (qaSection) {
       observer.observe(qaSection);
+    }
+    if (testSection) {
+      observer.observe(testSection);
     }
 
     // Handler for scrolling back to top
@@ -349,6 +357,60 @@ const HomePage = () => {
 
       {/* Q&A Section */}
       <QandA />
+
+      {/* Test Section */}
+      <section className="test-section" id="test">
+        <div className="test-container">
+          <div className="test-card">
+            {/* Decorative backgrounds */}
+            <div className="test-bg test-bg-1"></div>
+            <div className="test-bg test-bg-2"></div>
+            
+            {/* Content */}
+            <div className="test-content">
+              <h2 className="test-title">Dạ dày của bạn đang ở Level nào?</h2>
+              <p className="test-description">
+                Làm bài test 3 phút trước khi cơn đau pop-up lần nữa!
+              </p>
+              
+              <div className="test-benefits">
+                <h3 className="test-benefits-title">Bài test này sẽ giúp bạn:</h3>
+                <ul className="test-list">
+                  <li className="test-item">
+                    <div className="test-icon">
+                      <span className="material-symbols-outlined">check</span>
+                    </div>
+                    <p className="test-text">Đánh giá mức độ nghiêm trọng của các triệu chứng dạ dày</p>
+                  </li>
+                  <li className="test-item">
+                    <div className="test-icon">
+                      <span className="material-symbols-outlined">check</span>
+                    </div>
+                    <p className="test-text">Nhận biết các yếu tố nguy cơ từ lối sống</p>
+                  </li>
+                  <li className="test-item">
+                    <div className="test-icon">
+                      <span className="material-symbols-outlined">check</span>
+                    </div>
+                    <p className="test-text">Nhận lời khuyên cụ thể để cải thiện sức khỏe</p>
+                  </li>
+                </ul>
+              </div>
+
+              <div className="test-actions">
+                <Link to="/test-start" state={{ autoStart: true }} className="btn-test-start">
+                  <span className="material-symbols-outlined">play_arrow</span>
+                  Bắt đầu test ngay
+                </Link>
+                
+                <p className="test-disclaimer">
+                  *Kết quả chỉ mang tính chất tham khảo. Vui lòng tham khảo ý kiến bác sĩ để được chẩn đoán và điều trị chính xác.
+                </p>
+              </div>
+            </div>
+          </div>
+        </div>
+      </section>
     </main>
       <Footer />
     </>

@@ -78,11 +78,21 @@ const Header = () => {
             >
               Q&A
             </Link>
-            <Link className={`nav-link ${isActive('/test') ? 'active' : ''}`} to="/test">Test</Link>
+            <Link 
+              className={`nav-link ${isActive('/test') ? 'active' : ''}`} 
+              to="/test"
+              onClick={handleNavClick('/test', 'test')}
+            >
+              Test
+            </Link>
             <Link className={`nav-link ${isActive('/contact') ? 'active' : ''}`} to="/contact">Liên hệ</Link>
           </nav>
           <div className="header-actions">
-            <Link className="btn-cta" to="/test">
+            <Link 
+              className="btn-cta" 
+              to="/test"
+              onClick={handleNavClick('/test', 'test')}
+            >
               <span className="material-symbols-outlined">bolt</span>
               LÀM TEST NGAY
             </Link>

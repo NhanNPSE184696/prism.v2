@@ -1,0 +1,195 @@
+<!DOCTYPE html>
+<html class="light" lang="vi"><head>
+<meta charset="utf-8"/>
+<meta content="width=device-width, initial-scale=1.0" name="viewport"/>
+<title>ÊM DẠ MODE - Kiểm tra sức khỏe dạ dày</title>
+<link href="https://fonts.googleapis.com" rel="preconnect"/>
+<link crossorigin="" href="https://fonts.gstatic.com" rel="preconnect"/>
+<link href="https://fonts.googleapis.com/css2?family=Plus+Jakarta+Sans:wght@400;500;600;700;800&amp;display=swap" rel="stylesheet"/>
+<link href="https://fonts.googleapis.com/css2?family=Material+Symbols+Outlined:opsz,wght,FILL,GRAD@24,400,0,0" rel="stylesheet"/>
+<script src="https://cdn.tailwindcss.com?plugins=forms,typography"></script>
+<script>
+        tailwind.config = {
+            darkMode: "class",
+            theme: {
+                extend: {
+                    colors: {
+                        primary: "#F57C00",
+                        secondary: "#B71C1C",
+                        "background-light": "#FAFAFA",
+                        "background-dark": "#121212",
+                    },
+                    fontFamily: {
+                        display: ["Plus Jakarta Sans", "sans-serif"],
+                    },
+                    borderRadius: {
+                        DEFAULT: "12px",
+                    },
+                },
+            },
+        };
+    </script>
+<style>
+        .gradient-text {
+            background: linear-gradient(90deg, #F57C00 0%, #B71C1C 100%);
+            -webkit-background-clip: text;
+            -webkit-text-fill-color: transparent;
+        }
+        .gradient-btn {
+            background: linear-gradient(90deg, #F57C00 0%, #B71C1C 100%);
+        }
+        .nav-link-active {
+            border-bottom: 2px solid #F57C00;
+            color: #F57C00;
+        }
+    </style>
+</head>
+<body class="font-display bg-background-light dark:bg-background-dark text-gray-900 dark:text-gray-100 transition-colors duration-300">
+<header class="sticky top-0 z-50 bg-white/80 dark:bg-black/80 backdrop-blur-md border-b border-gray-100 dark:border-gray-800">
+<nav class="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8 h-20 flex items-center justify-between">
+<div class="flex items-center gap-2">
+<img alt="ÊM DẠ MODE Logo" class="w-10 h-10 rounded-lg" src="https://lh3.googleusercontent.com/aida-public/AB6AXuAnQeTdwpZe3q-jEV2JwqJOfqXcegY-cpuByPRCHDO_5YS2zTh4U2Mvod2N05UbF-dPqRZvzBTy6C_vR1M3Wam2fNOeg4dw8QacPTe2F6yUU9FaX-tlMObk-fy3y4CZLSYNA1559gS3iE1GuivVx7upFC4XPG3ZifmLN06zOIzZp8QnzoM1CS9mm8jyOJvC67EgKL66p5b0VVCIZx-O3Mky_RAt6pp7JQ9GBJh4ZpwQE17aCtTeBIW-NA7B2Lsdl3cP_GDFcZfcWaI9"/>
+<span class="font-extrabold text-xl tracking-tight gradient-text">ÊM DẠ MODE</span>
+</div>
+<div class="hidden md:flex items-center gap-8">
+<a class="font-medium hover:text-primary transition-colors" href="#">Trang chủ</a>
+<a class="font-medium hover:text-primary transition-colors" href="#">About us</a>
+<a class="font-medium hover:text-primary transition-colors" href="#">Q&amp;A</a>
+<a class="font-bold nav-link-active py-1" href="#">Test</a>
+<a class="font-medium hover:text-primary transition-colors" href="#">Liên hệ</a>
+</div>
+<div class="flex items-center gap-4">
+<button class="p-2 rounded-full hover:bg-gray-100 dark:hover:bg-gray-800 transition-colors" onclick="document.documentElement.classList.toggle('dark')">
+<span class="material-symbols-outlined block dark:hidden">dark_mode</span>
+<span class="material-symbols-outlined hidden dark:block">light_mode</span>
+</button>
+<a class="gradient-btn text-white px-6 py-2.5 rounded-full font-semibold text-sm flex items-center gap-2 hover:opacity-90 transition-opacity shadow-lg shadow-primary/20" href="#">
+<span class="material-symbols-outlined text-sm">edit</span>
+                    Làm Test Ngay
+                </a>
+</div>
+</nav>
+</header>
+<main>
+<section class="pt-20 pb-12 px-4">
+<div class="max-w-4xl mx-auto text-center">
+<h1 class="text-4xl md:text-6xl font-extrabold mb-6 leading-tight gradient-text">
+                    Dạ dày bạn đang ở Level nào?
+                </h1>
+<p class="text-lg md:text-xl text-gray-600 dark:text-gray-400 font-medium">
+                    Làm test 3 phút trước khi cơn đau pop-up lần nữa.
+                </p>
+</div>
+</section>
+<section class="px-4 pb-20">
+<div class="max-w-2xl mx-auto bg-white dark:bg-zinc-900 rounded-[32px] shadow-2xl shadow-gray-200 dark:shadow-none p-8 md:p-12 border border-gray-50 dark:border-gray-800 relative overflow-hidden">
+<div class="absolute top-0 right-0 -mr-16 -mt-16 w-64 h-64 bg-primary/5 rounded-full blur-3xl"></div>
+<div class="absolute bottom-0 left-0 -ml-16 -mb-16 w-64 h-64 bg-secondary/5 rounded-full blur-3xl"></div>
+<div class="relative">
+<h2 class="text-2xl font-bold mb-10 text-center text-gray-800 dark:text-gray-100">Bài test này sẽ giúp bạn:</h2>
+<ul class="space-y-6 mb-12">
+<li class="flex items-start gap-4 group">
+<div class="bg-orange-100 dark:bg-orange-900/30 p-1 rounded-full text-primary shrink-0 transition-transform group-hover:scale-110">
+<span class="material-symbols-outlined">check</span>
+</div>
+<p class="text-lg text-gray-700 dark:text-gray-300">Đánh giá mức độ nghiêm trọng của các triệu chứng dạ dày</p>
+</li>
+<li class="flex items-start gap-4 group">
+<div class="bg-orange-100 dark:bg-orange-900/30 p-1 rounded-full text-primary shrink-0 transition-transform group-hover:scale-110">
+<span class="material-symbols-outlined">check</span>
+</div>
+<p class="text-lg text-gray-700 dark:text-gray-300">Nhận biết các yếu tố nguy cơ từ lối sống</p>
+</li>
+<li class="flex items-start gap-4 group">
+<div class="bg-orange-100 dark:bg-orange-900/30 p-1 rounded-full text-primary shrink-0 transition-transform group-hover:scale-110">
+<span class="material-symbols-outlined">check</span>
+</div>
+<p class="text-lg text-gray-700 dark:text-gray-300">Nhận lời khuyên cụ thể để cải thiện sức khỏe</p>
+</li>
+</ul>
+<div class="flex flex-col items-center gap-8">
+<button class="gradient-btn text-white text-xl font-bold px-12 py-5 rounded-2xl flex items-center gap-3 hover:scale-105 transition-all shadow-xl shadow-primary/30 active:scale-95">
+                            BẮT ĐẦU TEST
+                            <span class="material-symbols-outlined">arrow_forward</span>
+</button>
+<p class="text-sm text-gray-500 dark:text-gray-500 italic text-center max-w-md">
+                            * Bài test chỉ mang tính chất tham khảo, không thay thế cho chẩn đoán y khoa chuyên nghiệp.
+                        </p>
+</div>
+</div>
+</div>
+</section>
+</main>
+<footer class="bg-white dark:bg-zinc-950 border-t border-gray-100 dark:border-gray-900 pt-16 pb-8">
+<div class="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8">
+<div class="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-4 gap-12 mb-16">
+<div>
+<div class="flex items-center gap-2 mb-6">
+<img alt="ÊM DẠ MODE Logo" class="w-12 h-12 rounded-xl" src="https://lh3.googleusercontent.com/aida-public/AB6AXuD_tfW6Xbxnlkt05gsAN7JFymJcIgr6L1kde3bm26jOSLcmuTQNxcLtinNMqoNVsNF98cd8QYRSWUnXvBYqL9ooObTb6sEksIkZuTdtMJi-C-1VkQMqQIGhmiyeDNvz8CNxrF0xawwLhlL9wr2FLYZ-eTFnxx3wdEiH_kmGMmp1u2rYCczREdcnMYbb2FadlNthuIFcUu98i9QzajQmrAh6xutZoIZEL7poN0ipEst_dQiBHn1C7TtCUhp73eL-zzBx_DpJRfgMULs4"/>
+<span class="font-extrabold text-2xl tracking-tight gradient-text">ÊM DẠ MODE</span>
+</div>
+<p class="text-gray-600 dark:text-gray-400 text-lg font-medium leading-relaxed italic">
+                        "Bật mode "Êm Dạ", nhịp sống mượt mà! Chiến dịch nâng cao nhận thức về sức khỏe dạ dày."
+                    </p>
+</div>
+<div>
+<h3 class="font-bold text-gray-900 dark:text-gray-100 mb-6 uppercase tracking-wider text-sm">Điều hướng</h3>
+<ul class="space-y-4 text-gray-600 dark:text-gray-400">
+<li><a class="hover:text-primary transition-colors" href="#">Trang chủ</a></li>
+<li><a class="hover:text-primary transition-colors" href="#">Về chúng tôi</a></li>
+<li><a class="hover:text-primary transition-colors" href="#">Q&amp;A</a></li>
+<li><a class="hover:text-primary transition-colors" href="#">Bài Test</a></li>
+<li><a class="hover:text-primary transition-colors" href="#">Liên hệ</a></li>
+</ul>
+</div>
+<div>
+<h3 class="font-bold text-gray-900 dark:text-gray-100 mb-6 uppercase tracking-wider text-sm">Thông tin liên hệ</h3>
+<ul class="space-y-4 text-gray-600 dark:text-gray-400">
+<li class="flex items-center gap-3">
+<span class="material-symbols-outlined text-primary text-sm">call</span>
+                            Điện thoại: 0815398633
+                        </li>
+<li class="flex items-center gap-3">
+<span class="material-symbols-outlined text-primary text-sm">mail</span>
+                            Email: prismproject.fptu@gmail.com
+                        </li>
+<li class="flex flex-col gap-1 pt-2">
+<span class="text-xs uppercase font-bold text-gray-400 dark:text-gray-500">Trưởng nhóm:</span>
+<span>hanhndmss180820@fpt.edu.vn</span>
+</li>
+</ul>
+</div>
+<div>
+<h3 class="font-bold text-gray-900 dark:text-gray-100 mb-6 uppercase tracking-wider text-sm">Kết nối với chúng tôi</h3>
+<div class="flex gap-4 mb-8">
+<a class="w-10 h-10 rounded-full border border-gray-200 dark:border-gray-800 flex items-center justify-center hover:bg-primary hover:text-white transition-all text-gray-600 dark:text-gray-400" href="#">
+<svg class="w-5 h-5 fill-current" viewBox="0 0 24 24"><path d="M24 12.073c0-6.627-5.373-12-12-12s-12 5.373-12 12c0 5.99 4.388 10.954 10.125 11.854v-8.385H7.078v-3.469h3.047V9.43c0-3.007 1.792-4.669 4.533-4.669 1.312 0 2.686.235 2.686.235v2.953H15.83c-1.491 0-1.956.925-1.956 1.874v2.25h3.328l-.532 3.469h-2.796v8.385C19.612 23.027 24 18.062 24 12.073z"></path></svg>
+</a>
+<a class="w-10 h-10 rounded-full border border-gray-200 dark:border-gray-800 flex items-center justify-center hover:bg-primary hover:text-white transition-all text-gray-600 dark:text-gray-400" href="#">
+<svg class="w-5 h-5 fill-current" viewBox="0 0 24 24"><path d="M12 2.163c3.204 0 3.584.012 4.85.07 3.252.148 4.771 1.691 4.919 4.919.058 1.266.069 1.645.069 4.849 0 3.205-.012 3.584-.069 4.849-.149 3.225-1.664 4.771-4.919 4.919-1.266.058-1.644.07-4.85.07-3.204 0-3.584-.012-4.849-.07-3.26-.149-4.771-1.699-4.919-4.92-.058-1.265-.07-1.644-.07-4.849 0-3.204.013-3.583.07-4.849.149-3.227 1.664-4.771 4.919-4.919 1.266-.057 1.645-.069 4.849-.069zM12 0C8.741 0 8.333.014 7.053.072 2.695.272.273 2.69.073 7.052.014 8.333 0 8.741 0 12c0 3.259.014 3.668.072 4.948.2 4.358 2.618 6.78 6.98 6.98 1.28.058 1.689.072 4.948.072 3.259 0 3.668-.014 4.948-.072 4.354-.2 6.782-2.618 6.979-6.98.059-1.28.073-1.689.073-4.948 0-3.259-.014-3.667-.072-4.947-.196-4.354-2.617-6.78-6.979-6.98C15.668.014 15.259 0 12 0zm0 5.838a6.162 6.162 0 100 12.324 6.162 6.162 0 000-12.324zM12 16a4 4 0 110-8 4 4 0 010 8zm6.406-11.845a1.44 1.44 0 100 2.881 1.44 1.44 0 000-2.881z"></path></svg>
+</a>
+<a class="w-10 h-10 rounded-full border border-gray-200 dark:border-gray-800 flex items-center justify-center hover:bg-primary hover:text-white transition-all text-gray-600 dark:text-gray-400" href="#">
+<span class="material-symbols-outlined text-xl">mail</span>
+</a>
+<a class="w-10 h-10 rounded-full border border-gray-200 dark:border-gray-800 flex items-center justify-center hover:bg-primary hover:text-white transition-all text-gray-600 dark:text-gray-400" href="#">
+<span class="material-symbols-outlined text-xl">phone</span>
+</a>
+</div>
+<div class="p-4 bg-gray-50 dark:bg-zinc-900 rounded-2xl border border-gray-100 dark:border-gray-800">
+<p class="font-bold text-sm text-gray-800 dark:text-gray-200 mb-1">Dự án tốt nghiệp</p>
+<p class="text-sm text-gray-500 dark:text-gray-400">Đại học FPT</p>
+</div>
+</div>
+</div>
+<div class="pt-8 border-t border-gray-100 dark:border-gray-900 text-center">
+<p class="text-gray-500 dark:text-gray-400 text-sm mb-2">
+                    © 2026 ÊM DẠ MODE. All Rights Reserved.
+                </p>
+<p class="text-gray-400 dark:text-gray-600 text-xs flex items-center justify-center gap-1">
+                    Được phát triển với <span class="text-red-500">❤️</span> bởi đội ngũ sinh viên FPT University
+                </p>
+</div>
+</div>
+</footer>
+
+</body></html>
