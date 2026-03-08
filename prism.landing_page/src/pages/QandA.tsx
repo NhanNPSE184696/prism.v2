@@ -1,6 +1,10 @@
 import { useState, useEffect, useRef } from 'react';
 import './QandA.css';
 import professorImg from '../assets/Images/professor.png';
+import stomach1Img from '../assets/Images/stomach1.png';
+import stomach2Img from '../assets/Images/stomach2.png';
+import stomach3Img from '../assets/Images/stomach3.png';
+import stomach4Img from '../assets/Images/stomach4.png';
 
 interface QuestionCardProps {
   question: string;
@@ -344,23 +348,38 @@ https://nhathuoclongchau.com.vn/bai-viet/xuat-huyet-da-day-non-ra-mau-co-nguy-hi
       {/* Submit Question Section */}
       <div className="qa-submit-section">
         <div className="qa-submit-container">
-          <h2 className="qa-submit-title">Bạn không thấy câu hỏi của mình?</h2>
-          <p className="qa-submit-subtitle">
-            Nhập câu hỏi tại đây, tụi mình sẽ phản hồi qua email hoặc cập nhật lên danh sách nhé!
-          </p>
-          <form className="qa-submit-form">
-            <input
-              className="qa-submit-input"
-              placeholder="Ví dụ: Đau thượng vị về đêm có nguy hiểm không?"
-              type="text"
-            />
-            <button className="qa-submit-button" type="button">
-              Gửi ngay <span className="material-symbols-outlined">send</span>
-            </button>
-          </form>
-          <p className="qa-submit-note">
-            Câu hỏi của bạn sẽ được đội ngũ chuyên gia phản hồi trong 24h.
-          </p>
+          {/* Left mascots */}
+          <div className="qa-submit-mascots-left">
+            <img src={stomach1Img} alt="Stomach mascot" className="qa-submit-mascot qa-submit-mascot-top" />
+            <img src={stomach2Img} alt="Stomach mascot" className="qa-submit-mascot qa-submit-mascot-bottom" />
+          </div>
+
+          {/* Center content */}
+          <div className="qa-submit-content">
+            <h2 className="qa-submit-title">Bạn không thấy câu hỏi của mình?</h2>
+            <p className="qa-submit-subtitle">
+              Nhập câu hỏi tại đây, tụi mình sẽ phản hồi qua email hoặc cập nhật lên danh sách nhé!
+            </p>
+            <form className="qa-submit-form">
+              <input
+                className="qa-submit-input"
+                placeholder="Ví dụ: Đau thượng vị về đêm có nguy hiểm không?"
+                type="text"
+              />
+              <button className="qa-submit-button" type="button">
+                Gửi ngay <span className="material-symbols-outlined">send</span>
+              </button>
+            </form>
+            <p className="qa-submit-note">
+              Câu hỏi của bạn sẽ được đội ngũ chuyên gia phản hồi trong 24h.
+            </p>
+          </div>
+
+          {/* Right mascots */}
+          <div className="qa-submit-mascots-right">
+            <img src={stomach3Img} alt="Stomach mascot" className="qa-submit-mascot qa-submit-mascot-top" />
+            <img src={stomach4Img} alt="Stomach mascot" className="qa-submit-mascot qa-submit-mascot-bottom" />
+          </div>
         </div>
       </div>
 
