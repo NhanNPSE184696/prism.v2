@@ -5,6 +5,7 @@ import Header from '../components/Header';
 import Footer from '../components/Footer';
 import QandA from './QandA';
 import { Toast } from '../components/Toast';
+import aboutImg from '../assets/Images/Aboutv2.jpg';
 import './HomePage.css';
 
 const HomePage = () => {
@@ -299,7 +300,7 @@ const HomePage = () => {
         <div className="section-container">
           <div className="about-project-grid">
             <div className="about-project-image">
-              <img src="./src/assets/Images/Aboutv2.jpg" alt="Êm Dạ Mode Project" />
+              <img src={aboutImg} alt="Êm Dạ Mode Project" />
             </div>
             <div className="about-project-content">
               <h2 className="about-project-title">
