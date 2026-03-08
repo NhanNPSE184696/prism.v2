@@ -20,6 +20,7 @@ function AppContent() {
         <Route path="/aboutus" element={<HomePage />} />
         <Route path="/qa" element={<HomePage />} />
         <Route path="/test" element={<HomePage />} />
+        <Route path="/contact" element={<HomePage />} />
         <Route path="/test-start" element={<Test />} />
         {/* <Route path="/about" element={<AboutUs />} /> */}
       </Routes>

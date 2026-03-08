@@ -85,7 +85,13 @@ const Header = () => {
             >
               Test
             </Link>
-            <Link className={`nav-link ${isActive('/contact') ? 'active' : ''}`} to="/contact">Liên hệ</Link>
+            <Link 
+              className={`nav-link ${isActive('/contact') ? 'active' : ''}`} 
+              to="/contact"
+              onClick={handleNavClick('/contact', 'contact')}
+            >
+              Liên hệ
+            </Link>
           </nav>
           <div className="header-actions">
             <Link 

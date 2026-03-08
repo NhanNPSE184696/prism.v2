@@ -1,0 +1,195 @@
+<!DOCTYPE html>
+<html lang="vi">
+<head>
+<meta charset="UTF-8">
+<title>Liên hệ mới</title>
+
+<style>
+
+body{
+    margin:0;
+    padding:0;
+    background:#f3f4f6;
+    font-family: Arial, Helvetica, sans-serif;
+}
+
+.container{
+    max-width:600px;
+    margin:auto;
+    background:white;
+    border-radius:16px;
+    overflow:hidden;
+    box-shadow:0 10px 30px rgba(0,0,0,0.08);
+}
+
+/* HEADER */
+
+.header{
+    background:linear-gradient(135deg,#ff6b35,#f7931e);
+    text-align:center;
+    padding:40px 20px;
+    color:white;
+}
+
+.header-icon{
+    font-size:34px;
+    margin-bottom:10px;
+}
+
+.header-title{
+    font-size:26px;
+    font-weight:bold;
+    letter-spacing:1px;
+}
+
+.header-sub{
+    font-size:14px;
+    opacity:.9;
+    margin-top:6px;
+}
+
+/* BODY */
+
+.content{
+    padding:30px;
+}
+
+.label{
+    font-size:12px;
+    font-weight:bold;
+    color:#6b7280;
+    margin-bottom:6px;
+    text-transform:uppercase;
+}
+
+.value{
+    background:#f9fafb;
+    padding:14px 16px;
+    border-radius:10px;
+    border-left:4px solid #ff6b35;
+    margin-bottom:18px;
+    font-size:14px;
+    color:#111827;
+}
+
+.message{
+    line-height:1.6;
+}
+
+/* INFO BOX */
+
+.note{
+    background:#fff7ed;
+    border:1px solid #fed7aa;
+    border-radius:10px;
+    padding:18px;
+    margin-top:20px;
+    font-size:13px;
+}
+
+.note-title{
+    font-weight:bold;
+    margin-bottom:8px;
+}
+
+/* FOOTER */
+
+.footer{
+    background:#f9fafb;
+    text-align:center;
+    padding:25px;
+    border-top:1px solid #e5e7eb;
+}
+
+.footer-title{
+    font-weight:bold;
+    font-size:15px;
+    margin-bottom:6px;
+}
+
+.footer-text{
+    font-size:13px;
+    color:#6b7280;
+}
+
+.footer-contact{
+    margin-top:10px;
+    font-size:13px;
+}
+
+.footer-contact a{
+    color:#ff6b35;
+    text-decoration:none;
+}
+
+</style>
+</head>
+
+<body>
+
+<div class="container">
+
+<!-- HEADER -->
+
+<div class="header">
+<div class="header-icon">📨</div>
+<div class="header-title">LIÊN HỆ MỚI</div>
+<div class="header-sub">Êm Dạ Mode – Bật mode "Êm Dạ", nhịp sống mượt mà</div>
+</div>
+
+<!-- BODY -->
+
+<div class="content">
+
+<div class="label">👤 Họ và tên</div>
+<div class="value">{{from_name}}</div>
+
+<div class="label">📧 Email</div>
+<div class="value">{{reply_to}}</div>
+
+<div class="label">📱 Số điện thoại</div>
+<div class="value">{{phone}}</div>
+
+<div class="label">📌 Chủ đề</div>
+<div class="value">{{topic}}</div>
+
+<div class="label">💬 Nội dung</div>
+<div class="value message">{{message}}</div>
+
+<div class="note">
+<div class="note-title">Hướng dẫn phản hồi</div>
+
+• Reply trực tiếp email này để phản hồi<br>
+• Hoặc liên hệ qua số điện thoại khách hàng<br>
+• Thời gian phản hồi đề xuất: <b>24-48h</b>
+
+</div>
+
+</div>
+
+<!-- FOOTER -->
+
+<div class="footer">
+
+<div class="footer-title">ÊM DẠ MODE</div>
+
+<div class="footer-text">
+Chiến dịch nâng cao nhận thức sức khỏe dạ dày
+</div>
+
+<div class="footer-contact">
+📧 <a href="mailto:prismproject.fptu@gmail.com">prismproject.fptu@gmail.com</a>
+<br>
+📞 <a href="tel:0815398633">0815 398 633</a>
+</div>
+
+<div class="footer-text" style="margin-top:12px;font-size:12px;">
+Email được gửi tự động từ form liên hệ website
+</div>
+
+</div>
+
+</div>
+
+</body>
+</html>
