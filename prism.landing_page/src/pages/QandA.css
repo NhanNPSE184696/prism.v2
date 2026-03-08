@@ -444,6 +444,54 @@
   font-size: 1.25rem;
 }
 
+.qa-submit-button:disabled {
+  opacity: 0.6;
+  cursor: not-allowed;
+  transform: none;
+}
+
+.qa-submit-button:disabled:hover {
+  transform: none;
+}
+
+.qa-submit-input:disabled {
+  opacity: 0.6;
+  cursor: not-allowed;
+}
+
+.qa-submit-message {
+  padding: 1rem;
+  border-radius: 0.75rem;
+  margin: 1rem 0;
+  font-size: 0.875rem;
+  font-weight: 500;
+  text-align: center;
+  animation: slideIn 0.3s ease;
+}
+
+@keyframes slideIn {
+  from {
+    opacity: 0;
+    transform: translateY(-10px);
+  }
+  to {
+    opacity: 1;
+    transform: translateY(0);
+  }
+}
+
+.qa-submit-message-success {
+  background-color: #d1fae5;
+  color: #065f46;
+  border: 2px solid #10b981;
+}
+
+.qa-submit-message-error {
+  background-color: #fee2e2;
+  color: #991b1b;
+  border: 2px solid #ef4444;
+}
+
 .qa-submit-note {
   margin-top: 1rem;
   font-size: 0.75rem;
