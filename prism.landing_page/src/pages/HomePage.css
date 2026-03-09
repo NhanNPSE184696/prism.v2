@@ -1366,16 +1366,14 @@
 }
 
 .team-avatar {
-  width: 96px;
-  height: 96px;
+  width: 150px;
+  height: 150px;
   border-radius: 50%;
-  display: flex;
-  align-items: center;
-  justify-content: center;
-  font-size: 2.5rem;
-  font-weight: 700;
-  color: white;
+  object-fit: cover;
   margin: 0 auto 1.5rem;
+  display: block;
+  /* border: 3px solid #e31e24; */
+  box-shadow: 0 4px 12px rgba(0, 0, 0, 0.15);
 }
 
 .team-avatar-primary {

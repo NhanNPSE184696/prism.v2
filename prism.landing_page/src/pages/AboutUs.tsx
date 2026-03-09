@@ -1,6 +1,11 @@
 import Header from '../components/Header';
 import Footer from '../components/Footer';
 import './AboutUs.css';
+import myHanhImg from '../assets/Images/MyHanh.jpeg';
+import anhHaoImg from '../assets/Images/AnhHao.jpg';
+import maiThaoImg from '../assets/Images/MaiThao.jpg';
+import thanhThaoImg from '../assets/Images/ThanhThao.jpg';
+import traMyImg from '../assets/Images/TraMy.jpg';
 
 const AboutUs = () => {
   return (
@@ -120,29 +125,29 @@ const AboutUs = () => {
             </div>
             <div className="team-grid">
               <div className="team-card">
-                <div className="team-avatar team-avatar-primary">N</div>
+                <img src={myHanhImg} alt="Nguyễn Đặng Mỹ Hạnh" className="team-avatar" />
                 <h3 className="team-name">Nguyễn Đặng Mỹ Hạnh</h3>
                 <p className="team-role">Project Leader</p>
               </div>
               <div className="team-card">
-                <div className="team-avatar team-avatar-orange">Đ</div>
+                <img src={anhHaoImg} alt="Đặng Anh Hào" className="team-avatar" />
                 <h3 className="team-name">Đặng Anh Hào</h3>
                 <p className="team-role">Planning Leader</p>
               </div>
               <div className="team-card">
-                <div className="team-avatar team-avatar-primary">L</div>
+                <img src={maiThaoImg} alt="Lê Nguyễn Mai Thảo" className="team-avatar" />
                 <h3 className="team-name">Lê Nguyễn Mai Thảo</h3>
                 <p className="team-role">Communications Leader</p>
               </div>
             </div>
             <div className="team-grid team-grid-secondary">
               <div className="team-card">
-                <div className="team-avatar team-avatar-primary">N</div>
+                <img src={thanhThaoImg} alt="Nguyễn Thị Thanh Thảo" className="team-avatar" />
                 <h3 className="team-name">Nguyễn Thị Thanh Thảo</h3>
                 <p className="team-role">Production Leader</p>
               </div>
               <div className="team-card">
-                <div className="team-avatar team-avatar-primary">P</div>
+                <img src={traMyImg} alt="Phan Thị Trà My" className="team-avatar" />
                 <h3 className="team-name">Phan Thị Trà My</h3>
                 <p className="team-role">Event Leader</p>
               </div>
