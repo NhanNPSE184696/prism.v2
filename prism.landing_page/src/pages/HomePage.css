@@ -1365,15 +1365,59 @@
   box-shadow: 0 12px 32px rgba(0, 0, 0, 0.12);
 }
 
+.team-avatar-wrapper {
+  position: relative;
+  width: 150px;
+  height: 150px;
+  margin: 0 auto 1.5rem;
+}
+
+.team-avatar-bg {
+  position: absolute;
+  width: 150px;
+  height: 150px;
+  background-color: #E8E9EB;
+  border-radius: 50%;
+  top: 0;
+  left: 0;
+  z-index: 1;
+}
+
+.avatar-bg-3{
+  background-color: #ECEDEF;
+}
+
+.avatar-bg-4{
+  background-color: #dbdbde;
+}
+
 .team-avatar {
+  position: relative;
   width: 150px;
   height: 150px;
   border-radius: 50%;
   object-fit: cover;
-  margin: 0 auto 1.5rem;
   display: block;
   /* border: 3px solid #e31e24; */
-  box-shadow: 0 4px 12px rgba(0, 0, 0, 0.15);
+  /* box-shadow: 0 4px 12px rgba(0, 0, 0, 0.15); */
+  z-index: 2;
+}
+
+.avatar-1{
+  width: 160px;
+}
+
+.avatar-2 {
+  padding-top: 30px;
+}
+
+.avatar-3 {
+  padding-left: 5px;
+}
+
+.avatar-4 {
+  width: 130px;
+  padding-left: 20px;
 }
 
 .team-avatar-primary {

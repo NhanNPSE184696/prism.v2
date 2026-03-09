@@ -411,29 +411,44 @@ const HomePage = () => {
           </div>
           <div className="team-grid">
             <div className="team-card">
-              <img src={myHanhImg} alt="Nguyễn Đặng Mỹ Hạnh" className="team-avatar" />
+              <div className="team-avatar-wrapper">
+                <div className="team-avatar-bg"></div>
+                <img src={myHanhImg} alt="Nguyễn Đặng Mỹ Hạnh" className="team-avatar avatar-1" />
+              </div>
               <h3 className="team-name">Nguyễn Đặng Mỹ Hạnh</h3>
               <p className="team-role">Project Leader</p>
             </div>
             <div className="team-card">
-              <img src={anhHaoImg} alt="Đặng Anh Hào" className="team-avatar" />
+              <div className="team-avatar-wrapper">
+                <div className="team-avatar-bg"></div>
+                <img src={anhHaoImg} alt="Đặng Anh Hào" className="team-avatar avatar-2" />
+              </div>
               <h3 className="team-name">Đặng Anh Hào</h3>
               <p className="team-role">Planning Leader</p>
             </div>
             <div className="team-card">
-              <img src={maiThaoImg} alt="Lê Nguyễn Mai Thảo" className="team-avatar" />
+              <div className="team-avatar-wrapper">
+                <div className="team-avatar-bg avatar-bg-3"></div>
+                <img src={maiThaoImg} alt="Lê Nguyễn Mai Thảo" className="team-avatar avatar-1 avatar-3" />
+              </div>
               <h3 className="team-name">Lê Nguyễn Mai Thảo</h3>
               <p className="team-role">Communications Leader</p>
             </div>
           </div>
           <div className="team-grid team-grid-secondary">
             <div className="team-card">
-              <img src={thanhThaoImg} alt="Nguyễn Thị Thanh Thảo" className="team-avatar" />
+              <div className="team-avatar-wrapper">
+                <div className="team-avatar-bg avatar-bg-4"></div>
+                <img src={thanhThaoImg} alt="Nguyễn Thị Thanh Thảo" className="team-avatar avatar-4" />
+              </div>
               <h3 className="team-name">Nguyễn Thị Thanh Thảo</h3>
               <p className="team-role">Production Leader</p>
             </div>
             <div className="team-card">
-              <img src={traMyImg} alt="Phan Thị Trà My" className="team-avatar" />
+              <div className="team-avatar-wrapper">
+                <div className="team-avatar-bg"></div>
+                <img src={traMyImg} alt="Phan Thị Trà My" className="team-avatar" />
+              </div>
               <h3 className="team-name">Phan Thị Trà My</h3>
               <p className="team-role">Event Leader</p>
             </div>
