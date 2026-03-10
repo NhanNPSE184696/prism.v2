@@ -24,10 +24,12 @@ body {
   background-color: #FFFFFF;
   color: #0f172a;
   overflow-x: hidden;
+  -webkit-tap-highlight-color: transparent;
 }
 
 html {
   scroll-behavior: smooth;
+  overflow-x: hidden;
 }
 
 code {

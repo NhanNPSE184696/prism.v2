@@ -12,7 +12,7 @@ const Footer = () => {
               <span className="footer-logo-text">ÊM DẠ MODE</span>
             </div>
             <p className="footer-description">
-              Bật mode "Êm Dạ", nhịp sống mượt mà! Chiến dịch nâng cao nhận thức về sức khỏe dạ dày dành cho giới trẻ.
+              Chiến dịch truyền thông gia tăng nhận thức về mức độ nghiêm trọng của bệnh lý dạ dày cho người trẻ từ 18 đến 24 tuổi tại TP. Hồ Chí Minh.
             </p>
           </div>
           <div>
@@ -46,14 +46,14 @@ const Footer = () => {
             <h4 className="footer-title">Kết nối với chúng tôi</h4>
             <div className="footer-team">
               <div className="footer-social">
-              <a href="#" className="social-link">
-                <span className="material-symbols-outlined">public</span>
+              <a href="https://www.facebook.com/share/1KsGXpacyw/" className="social-link" title="Facebook" target="_blank" rel="noopener noreferrer">
+                <i className="fab fa-facebook"></i>
               </a>
-              <a href="#" className="social-link">
-                <span className="material-symbols-outlined">photo_camera</span>
+              <a href="https://www.tiktok.com/@emda_mode?_r=1&_t=ZS-94Yvzljq3Sn" className="social-link" title="TikTok" target="_blank" rel="noopener noreferrer">
+                <i className="fab fa-tiktok"></i>
               </a>
-              <a href="#" className="social-link">
-                <span className="material-symbols-outlined">mail</span>
+              <a href="https://www.instagram.com/emda_mode?igsh=MWt1eDAwOXI1MHJp" className="social-link" title="Instagram" target="_blank" rel="noopener noreferrer">
+                <i className="fab fa-instagram"></i>
               </a>
             </div>
               <p className="footer-team-subtitle">
@@ -68,7 +68,7 @@ const Footer = () => {
         <div className="footer-bottom">
           <p>
             © 2026 ÊM DẠ MODE. All Rights Reserved. <br />
-            Được phát triển với ❤️ bởi đội ngũ sinh viên FPT University.
+            Được phát triển với ❤️ bởi đội ngũ sinh viên IT FPT University.
           </p>
         </div>
       </div>
