@@ -1,5 +1,7 @@
 import { useEffect } from 'react';
 import { BrowserRouter as Router, Routes, Route, useLocation } from 'react-router-dom';
+import { Analytics } from "@vercel/analytics/react"
+import { SpeedInsights } from "@vercel/speed-insights/react"
 import HomePage from './pages/HomePage';
 import Test from './pages/Test';
 // import AboutUs from './pages/AboutUs';
@@ -34,13 +36,15 @@ function App() {
     if ('scrollRestoration' in window.history) {
       try {
         window.history.scrollRestoration = 'manual';
-      } catch (e) {}
+      } catch {}
     }
   }, []);
 
   return (
     <Router>
       <AppContent />
+      <Analytics />
+      <SpeedInsights/>
     </Router>
   )
 }
