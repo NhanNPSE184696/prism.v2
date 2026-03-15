@@ -38,33 +38,34 @@ export const TestWizard = ({ items, onComplete }: TestWizardProps) => {
     
     if (state.idx === items.length - 1) {
       // Calculate and show result
-      const result = calculateResult(score);
+      const result = calculateResult(score, state.answers);
       onComplete(result);
     } else {
       setState({ ...state, idx: state.idx + 1 });
     }
   };
 
-  const calculateResult = (totalScore: number): TestResult => {
+  const calculateResult = (totalScore: number, answers: Record<string, number>): TestResult => {
     let resultTitle = "";
     let resultDesc = "";
     let resultTip = "";
     let cls: 'low' | 'mid' | 'high' = "low";
+    const hasRedFlag = (answers.q10 ?? 0) >= 2;
 
-    if (totalScore >= 23) {
-      resultTitle = "🔴 G-TYPE CRITICAL";
-      resultDesc = "Có dấu hiệu cảnh báo bệnh lý dạ dày hoặc nguy cơ biến chứng. Không nên chỉ tự theo dõi tại nhà.";
-      resultTip = "Khuyến nghị hành động: Nên khám chuyên khoa tiêu hoá. Đi khám sớm nếu đau nhiều, sụt cân, nôn, hoặc triệu chứng kéo dài. Không tự ý dùng thuốc kéo dài.";
+    if (hasRedFlag || totalScore >= 18) {
+      resultTitle = "🔴 NGUY HIỂM";
+      resultDesc = "Nguy cơ cao có vấn đề dạ dày cần được thăm khám sớm. Không nên tiếp tục chỉ tự theo dõi tại nhà.";
+      resultTip = "Nên đi khám chuyên khoa tiêu hoá. \nKhông nên tiếp tục chỉ tự theo dõi tại nhà. \nĐi khám sớm hơn nếu có phân đen, nôn ra máu, sụt cân hoặc đau ảnh hưởng giấc ngủ.";
       cls = "high";
-    } else if (totalScore >= 8) {
-      resultTitle = "🟠 G-TYPE WARNING";
-      resultDesc = "Dạ dày đang nhạy cảm hoặc có dấu hiệu rối loạn chức năng tiêu hoá mức nhẹ–trung bình.";
-      resultTip = "Gợi ý hành động: Điều chỉnh chế độ ăn (ít cay, ít dầu, đúng giờ). Giảm stress và thức khuya. Theo dõi triệu chứng trong 2–4 tuần. Nếu không cải thiện → nên đi khám.";
+    } else if (totalScore >= 9) {
+      resultTitle = "🟠 CÓ NGUY CƠ CAO";
+      resultDesc = "Bạn có dấu hiệu nguy cơ rõ rệt liên quan đến triệu chứng hoặc thói quen sinh hoạt ảnh hưởng dạ dày.";
+      resultTip = "Theo dõi triệu chứng trong 2–4 tuần. \nChủ động thay đổi thói quen sống: ăn đúng bữa, giảm thức khuya, giảm cà phê/rượu bia/đồ cay.\nNếu không cải thiện, nên đi khám.";
       cls = "mid";
     } else {
-      resultTitle = "🟢 G-TYPE BALANCED";
-      resultDesc = "Dạ dày đang trong trạng thái tương đối ổn định. Có thể có khó chịu nhẹ do lối sống hoặc ăn uống thất thường.";
-      resultTip = "Gợi ý hành động: Duy trì giờ ăn đều. Hạn chế chất kích thích (cà phê, rượu, thuốc lá). Ngủ đủ và giảm stress. Theo dõi nếu triệu chứng tăng lên.";
+      resultTitle = "🟢 ỔN ĐỊNH";
+      resultDesc = "Mức độ ảnh hưởng hiện tại thấp, dạ dày tương đối ổn định trong giai đoạn gần đây.";
+      resultTip = "Tiếp tục duy trì thói quen tốt. \nĂn đúng giờ, ngủ đủ, hạn chế stress và chất kích thích.\nTheo dõi nếu triệu chứng xuất hiện thường hơn.";
       cls = "low";
     }
 

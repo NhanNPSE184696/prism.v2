@@ -347,6 +347,10 @@
   margin: 0;
 }
 
+.test-result-tip {
+  white-space: pre-line;
+}
+
 .test-result-actions {
   margin-top: 28px;
   text-align: center;

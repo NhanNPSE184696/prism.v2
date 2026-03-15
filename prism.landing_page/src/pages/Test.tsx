@@ -1,4 +1,4 @@
-import { useState } from 'react';
+import { useState, useEffect } from 'react';
 import { useLocation } from 'react-router-dom';
 import Header from '../components/Header';
 import Footer from '../components/Footer';
@@ -16,20 +16,21 @@ const Test = () => {
   const [started, setStarted] = useState(shouldAutoStart);
   const [result, setResult] = useState<TestResult | null>(null);
 
+  useEffect(() => {
+    window.scrollTo({ top: 0, behavior: 'instant' as ScrollBehavior });
+  }, [started, result]);
+
   const handleStart = () => {
     setStarted(true);
-    window.scrollTo({ top: 0, behavior: 'smooth' });
   };
 
   const handleComplete = (testResult: TestResult) => {
     setResult(testResult);
-    window.scrollTo({ top: 0, behavior: 'smooth' });
   };
 
   const handleRestart = () => {
     setResult(null);
     setStarted(false);
-    window.scrollTo({ top: 0, behavior: 'smooth' });
   };
 
   // Intro Screen
@@ -149,8 +150,8 @@ const Test = () => {
                   </div>
                   
                   <div className="test-result-section test-result-section-highlight">
-                    <h3 className="test-result-section-title">Gợi ý hành động:</h3>
-                    <p className="test-result-section-text">{result.resultTip}</p>
+                    <h3 className="test-result-section-title">Khuyến nghị:</h3>
+                    <p className="test-result-section-text test-result-tip">{result.resultTip}</p>
                   </div>
 
                   <div className="test-result-actions">
@@ -163,31 +164,31 @@ const Test = () => {
                   <div className="test-result-disclaimer">
                     <span className="material-symbols-outlined">info</span>
                     <p>
-                      <strong>Thông điệp quan trọng:</strong> Kết quả chỉ mang tính tham khảo sức khỏe ban đầu. 
-                      Nếu bạn có triệu chứng nặng, kéo dài, hoặc lo lắng — hãy đi khám bác sĩ.
+                      <strong>Lưu ý quan trọng:</strong> Bài test chỉ mang tính tham khảo để tự đánh giá ban đầu, không thay thế chẩn đoán hoặc điều trị y khoa. Nếu bạn có triệu chứng nặng, kéo dài, hoặc có dấu hiệu như phân đen, nôn ra máu, sụt cân không Srõ nguyên nhân, hãy đi khám sớm.
+
                     </p>
                   </div>
                 </div>
 
-                <div className="test-result-info">
-                  <h2 className="test-result-info-title">Phân nhóm G-Type</h2>
-                  <p className="test-result-info-subtitle">Kết quả quy chiếu dựa trên mức độ nguy cơ vấn đề dạ dày.</p>
+                {/* <div className="test-result-info">
+                  <h2 className="test-result-info-title">Phân tầng kết quả</h2>
+                  <p className="test-result-info-subtitle">Dựa trên tổng điểm.</p>
                   
                   <div className="test-result-info-grid">
                     <div className="test-result-info-card">
-                      <h3>🟢 Balanced (0–7)</h3>
-                      <p>Dạ dày ổn định. Duy trì giờ ăn đều, giảm stress, hạn chế chất kích thích.</p>
+                      <h3>🟢 Ổn định (0–8)</h3>
+                      <p>Tiếp tục duy trì thói quen tốt và theo dõi nếu triệu chứng xuất hiện thường hơn.</p>
                     </div>
                     <div className="test-result-info-card">
-                      <h3>🟠 Warning (8–22)</h3>
-                      <p>Dạ dày nhạy cảm hoặc có rối loạn nhẹ–trung bình. Điều chỉnh chế độ ăn, theo dõi 2–4 tuần.</p>
+                      <h3>🟠 Có nguy cơ cao (9–17)</h3>
+                      <p>Chủ động điều chỉnh lối sống và theo dõi trong 2–4 tuần; không cải thiện thì nên đi khám.</p>
                     </div>
                     <div className="test-result-info-card">
-                      <h3>🔴 Critical (23–30)</h3>
-                      <p>Có dấu hiệu cảnh báo nghiêm trọng. Nên khám chuyên khoa tiêu hoá càng sớm càng tốt.</p>
+                      <h3>🔴 Nguy hiểm (18–30)</h3>
+                      <p>Nên khám chuyên khoa tiêu hoá sớm. Nếu câu 10 chọn C hoặc D thì xếp thẳng mức nguy hiểm.</p>
                     </div>
                   </div>
-                </div>
+                </div> */}
               </div>
             )}
           </div>
