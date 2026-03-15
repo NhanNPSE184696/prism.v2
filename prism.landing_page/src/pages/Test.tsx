@@ -164,7 +164,7 @@ const Test = () => {
                   <div className="test-result-disclaimer">
                     <span className="material-symbols-outlined">info</span>
                     <p>
-                      <strong>Lưu ý quan trọng:</strong> Bài test chỉ mang tính tham khảo để tự đánh giá ban đầu, không thay thế chẩn đoán hoặc điều trị y khoa. Nếu bạn có triệu chứng nặng, kéo dài, hoặc có dấu hiệu như phân đen, nôn ra máu, sụt cân không Srõ nguyên nhân, hãy đi khám sớm.
+                      <strong>Lưu ý quan trọng:</strong> Bài test chỉ mang tính tham khảo để tự đánh giá ban đầu, không thay thế chẩn đoán hoặc điều trị y khoa. Nếu bạn có triệu chứng nặng, kéo dài, hoặc có dấu hiệu như phân đen, nôn ra máu, sụt cân không rõ nguyên nhân, hãy đi khám sớm.
 
                     </p>
                   </div>
