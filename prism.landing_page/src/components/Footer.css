@@ -85,7 +85,7 @@
   font-size: 1.125rem;
   font-weight: 800;
   letter-spacing: -0.025em;
-  color: #E31E24;
+  color: #0f4c64;
 }
 
 .footer-description {
@@ -114,7 +114,7 @@
 }
 
 .social-link:hover {
-  color: #E31E24;
+  color: #4ea08d;
 }
 
 .social-link .material-symbols-outlined {
@@ -147,7 +147,7 @@
 }
 
 .footer-links a:hover {
-  color: #E31E24;
+  color: #4ea08d;
 }
 
 .footer-contact {
@@ -168,7 +168,7 @@
 }
 
 .footer-contact .material-symbols-outlined {
-  color: #E31E24;
+  color: #4ea08d;
   font-size: 1.125rem;
 }
 

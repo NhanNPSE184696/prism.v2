@@ -5,7 +5,7 @@ import Header from '../components/Header';
 import Footer from '../components/Footer';
 import QandA from './QandA';
 import { Toast } from '../components/Toast';
-import aboutImg from '../assets/Images/Aboutv2.jpg';
+import aboutImg from '../assets/Images/VEDUAN.png';
 import myHanhImg from '../assets/Images/MyHanh.jpeg';
 import anhHaoImg from '../assets/Images/AnhHao.jpg';
 import maiThaoImg from '../assets/Images/MaiThao.jpg';
@@ -416,7 +416,7 @@ const HomePage = () => {
                 <img src={myHanhImg} alt="Nguyễn Đặng Mỹ Hạnh" className="team-avatar avatar-1" />
               </div>
               <h3 className="team-name">Nguyễn Đặng Mỹ Hạnh</h3>
-              <p className="team-role">Project Leader</p>
+              <p className="text-highlight team-role">Project Leader</p>
             </div>
             <div className="team-card">
               <div className="team-avatar-wrapper">
@@ -424,7 +424,7 @@ const HomePage = () => {
                 <img src={anhHaoImg} alt="Đặng Anh Hào" className="team-avatar avatar-2" />
               </div>
               <h3 className="team-name">Đặng Anh Hào</h3>
-              <p className="team-role">Planning Leader</p>
+              <p className="text-highlight team-role">Planning Leader</p>
             </div>
             <div className="team-card">
               <div className="team-avatar-wrapper">
@@ -432,7 +432,7 @@ const HomePage = () => {
                 <img src={maiThaoImg} alt="Lê Nguyễn Mai Thảo" className="team-avatar avatar-1 avatar-3" />
               </div>
               <h3 className="team-name">Lê Nguyễn Mai Thảo</h3>
-              <p className="team-role">Communications Leader</p>
+              <p className="text-highlight team-role">Communications Leader</p>
             </div>
           </div>
           <div className="team-grid team-grid-secondary">
@@ -442,7 +442,7 @@ const HomePage = () => {
                 <img src={thanhThaoImg} alt="Nguyễn Thị Thanh Thảo" className="team-avatar avatar-4" />
               </div>
               <h3 className="team-name">Nguyễn Thị Thanh Thảo</h3>
-              <p className="team-role">Production Leader</p>
+              <p className="text-highlight team-role">Production Leader</p>
             </div>
             <div className="team-card">
               <div className="team-avatar-wrapper">
@@ -450,7 +450,7 @@ const HomePage = () => {
                 <img src={traMyImg} alt="Phan Thị Trà My" className="team-avatar" />
               </div>
               <h3 className="team-name">Phan Thị Trà My</h3>
-              <p className="team-role">Event Leader</p>
+              <p className="text-highlight team-role">Event Leader</p>
             </div>
           </div>
         </div>
