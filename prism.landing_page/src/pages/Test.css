@@ -204,6 +204,15 @@
   padding: 140px 16px 80px;
   background: linear-gradient(135deg, #e8f8f7 0%, #f4fffb 45%, #e0faf4 100%);
   min-height: 100vh;
+  transition: background 0.35s ease;
+}
+
+.test-wizard-section-mid {
+  background: linear-gradient(135deg, #fff7ed 0%, #ffedd5 45%, #fed7aa 100%);
+}
+
+.test-wizard-section-high {
+  background: linear-gradient(135deg, #fef2f2 0%, #fee2e2 45%, #fecaca 100%);
 }
 
 .test-wizard-container {

@@ -1,4 +1,4 @@
-import { useState } from 'react';
+import { useEffect, useState } from 'react';
 import type { TestItem, TestState, TestResult } from '../types';
 import { Toast } from './Toast';
 import './TestWizard.css';
@@ -6,9 +6,10 @@ import './TestWizard.css';
 interface TestWizardProps {
   items: TestItem[];
   onComplete: (result: TestResult) => void;
+  onScoreChange?: (score: number) => void;
 }
 
-export const TestWizard = ({ items, onComplete }: TestWizardProps) => {
+export const TestWizard = ({ items, onComplete, onScoreChange }: TestWizardProps) => {
   const [state, setState] = useState<TestState>({ idx: 0, answers: {} });
   const [showToast, setShowToast] = useState(false);
 
@@ -16,6 +17,11 @@ export const TestWizard = ({ items, onComplete }: TestWizardProps) => {
   const currentItem = items[state.idx];
   const selectedOption = state.answers[currentItem?.id] ?? null;
   const score = Object.values(state.answers).reduce((sum, val) => sum + val, 0);
+  const tone: 'low' | 'mid' | 'high' = score >= 18 ? 'high' : score >= 9 ? 'mid' : 'low';
+
+  useEffect(() => {
+    onScoreChange?.(score);
+  }, [score, onScoreChange]);
 
   const handleOptionSelect = (value: number) => {
     setState({
@@ -76,7 +82,7 @@ export const TestWizard = ({ items, onComplete }: TestWizardProps) => {
   const meterProgress = Math.round((score / 30) * 100);
 
   return (
-    <div className="test-wizard">
+    <div className={`test-wizard test-wizard-${tone}`}>
       <Toast 
         show={showToast} 
         title="Vui lòng chọn một câu trả lời" 

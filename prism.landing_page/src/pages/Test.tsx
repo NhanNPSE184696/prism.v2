@@ -7,6 +7,14 @@ import { testItems } from '../data/testData';
 import type { TestResult } from '../types';
 import './Test.css';
 
+type ThemeTone = 'low' | 'mid' | 'high';
+
+const getToneByScore = (score: number): ThemeTone => {
+  if (score >= 18) return 'high';
+  if (score >= 9) return 'mid';
+  return 'low';
+};
+
 const Test = () => {
   const location = useLocation();
   
@@ -15,12 +23,16 @@ const Test = () => {
   
   const [started, setStarted] = useState(shouldAutoStart);
   const [result, setResult] = useState<TestResult | null>(null);
+  const [liveScore, setLiveScore] = useState(0);
+
+  const activeTone: ThemeTone = result?.cls ?? getToneByScore(liveScore);
 
   useEffect(() => {
     window.scrollTo({ top: 0, behavior: 'instant' as ScrollBehavior });
   }, [started, result]);
 
   const handleStart = () => {
+    setLiveScore(0);
     setStarted(true);
   };
 
@@ -30,6 +42,7 @@ const Test = () => {
 
   const handleRestart = () => {
     setResult(null);
+    setLiveScore(0);
     setStarted(false);
   };
 
@@ -108,7 +121,7 @@ const Test = () => {
     <>
       <Header />
       <main>
-        <section className="test-wizard-section">
+        <section className={`test-wizard-section test-wizard-section-${activeTone}`}>
           <div className="test-wizard-container">
             {!result ? (
               <>
@@ -118,7 +131,11 @@ const Test = () => {
                     <strong>Thời gian:</strong> 3–5 phút | <strong>Mục tiêu:</strong> Sàng lọc nhanh nguy cơ vấn đề dạ dày
                   </p>
                 </div>
-                <TestWizard items={testItems} onComplete={handleComplete} />
+                <TestWizard
+                  items={testItems}
+                  onComplete={handleComplete}
+                  onScoreChange={setLiveScore}
+                />
               </>
             ) : (
               <div className={`test-result-container test-result-container-${result.cls}`}>
