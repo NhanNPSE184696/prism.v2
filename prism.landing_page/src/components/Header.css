@@ -5,19 +5,19 @@
   z-index: 50;
   /* backdrop-filter: blur(12px); */
   /* background-color: transparent; */
-    background-color: rgba(255, 255, 255, 0.95);
+  background: linear-gradient(132deg, rgba(171, 186, 114, 0.16) 0%, rgba(255, 255, 255, 0.96) 52%, rgba(228, 242, 255, 0.92) 100%);
   border-bottom: 1px solid transparent;
   transition: all 0.3s ease;
 }
 
 .header.scrolled {
-  background-color: rgba(255, 255, 255, 0.95);
-  border-bottom: 1px solid #f1f5f9;
-  box-shadow: 0 4px 6px -1px rgba(0, 0, 0, 0.05);
+  background: linear-gradient(132deg, rgba(171, 186, 114, 0.22) 0%, rgba(249, 253, 241, 0.98) 42%, rgba(233, 245, 255, 0.96) 100%);
+  border-bottom: 1px solid #dbeafe;
+  box-shadow: 0 8px 20px -16px rgba(15, 76, 100, 0.35);
 }
 
 .header.scrolled .logo-text {
-  color: #E31E24;
+  color: #1F5F7A;
 }
 
 .header.scrolled .nav-link {
@@ -26,7 +26,7 @@
 
 /* Ensure hover and active styles still apply when header has scrolled state (higher specificity) */
 .header.scrolled .nav-link:hover {
-  color: #E31E24;
+  color: #0f4c64;
 }
 
 .header.scrolled .nav-link:hover::after {
@@ -34,7 +34,7 @@
 }
 
 .header.scrolled .nav-link.active {
-  color: #E31E24;
+  color: #0f4c64;
 }
 
 .header.scrolled .nav-link.active::after {
@@ -99,7 +99,7 @@
   font-size: 1rem;
   font-weight: 800;
   letter-spacing: -0.025em;
-  color: rgba(227, 30, 36, 0.9);
+  color: #0f4c64;
   transition: color 0.3s ease;
   display: none;
 }
@@ -148,12 +148,12 @@
   left: 0;
   width: 0;
   height: 2px;
-  background: linear-gradient(90deg, #FFD200 0%, #FF8A00 100%);
+  background: linear-gradient(135deg, #90d7e6 0%, #4eb0af 42%, #4ea08d 100%);
   transition: width 0.3s ease;
 }
 
 .nav-link:hover {
-  color: #E31E24;
+  color: #1F5F7A;
 }
 
 .nav-link:hover::after {
@@ -161,7 +161,7 @@
 }
 
 .nav-link.active {
-  color: #E31E24;
+  color: #1F5F7A;
 }
 
 .nav-link.active::after {
@@ -175,7 +175,7 @@
 }
 
 .btn-cta {
-  background: linear-gradient(135deg, #FF8C42 0%, #E31E24 100%);
+  background: linear-gradient(135deg, #90d7e6 0%, #4eb0af 42%, #4ea08d 100%);
   color: white;
   padding: 0.625rem 1.25rem;
   border-radius: 12px;
@@ -186,7 +186,7 @@
   align-items: center;
   gap: 0.375rem;
   transition: all 0.3s ease;
-  box-shadow: 0 4px 12px rgba(227, 30, 36, 0.25);
+  box-shadow: 0 10px 22px -12px rgba(120, 144, 69, 0.55);
   white-space: nowrap;
 }
 
@@ -206,7 +206,7 @@
 }
 
 .btn-cta:hover {
-  box-shadow: 0 6px 16px rgba(227, 30, 36, 0.35);
+  box-shadow: 0 14px 26px -10px rgba(87, 111, 50, 0.62);
   transform: translateY(-2px);
 }
 

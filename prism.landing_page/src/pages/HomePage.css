@@ -23,7 +23,7 @@ button, a {
 }
 
 .hero-section {
-  background-image: url('../assets/Images/EmDaCover.png');
+  background-image: url('../assets/Images/backgroundV2.png');
   background-size: cover;
   background-position: center;
   background-repeat: no-repeat;
@@ -66,7 +66,7 @@ button, a {
   font-size: 3rem;
   font-weight: 900;
   margin-bottom: 1.5rem;
-  color: #7A1223;
+  color: #0f4c64;
   /* background: linear-gradient(135deg, #ff9408 0%, #95122c 100%); */
   /* -webkit-background-clip: text; */
   /* -webkit-text-fill-color: transparent; */
@@ -295,7 +295,7 @@ button, a {
 }
 
 .text-primary {
-  color: #7A1223;
+  color: #61B2A1;
 }
 
 .section-subtitle {
@@ -340,7 +340,7 @@ button, a {
   background-color: white;
   padding: 1.5rem;
   border-radius: 1.5rem;
-  box-shadow: 0 10px 30px -5px rgba(163, 44, 24, 0.5);
+  box-shadow: 0 10px 30px -5px rgba(15, 76, 100, 0.55);
   border: 1px solid #f8fafc;
   text-align: center;
   transition: all 0.28s cubic-bezier(.2,.8,.2,1);
@@ -356,7 +356,7 @@ button, a {
 .stat-card:hover {
   border-color: rgba(227, 30, 36, 0.2);
   transform: translateY(-6px) scale(1.03);
-  box-shadow: 0 18px 40px -10px rgba(163, 44, 24, 0.45);
+  box-shadow: 0 18px 40px -10px rgba(15, 76, 100, 0.723);
 }
 
 .stat-icon-wrapper {
@@ -634,7 +634,7 @@ button, a {
 .title-bar {
   width: 4px;
   height: 2.5rem;
-  background: linear-gradient(180deg, #FFD200 0%, #E31E24 100%);
+  background: linear-gradient(180deg, #90d7e6 0%, #4eb0af 42%, #1f5f7a 100%);
   border-radius: 2px;
   display: inline-block;
 }
@@ -1304,8 +1304,8 @@ button, a {
   background-color: white;
   padding: 2rem;
   border-radius: 2rem;
-  box-shadow: 0 0 20px rgba(239, 68, 68, 0.15);
-  border: 1px solid rgba(239, 68, 68, 0.2);
+  box-shadow: 0 0 20px rgba(33, 118, 151, 0.26);
+  border: 1px solid rgba(93, 191, 230, 0.692);
   display: flex;
   flex-direction: column;
   gap: 2.5rem;
@@ -1327,7 +1327,7 @@ button, a {
 
 .contact-info-icon {
   margin-top: 0.25rem;
-  color: #b91c1c;
+  color: #4ea08d;
 }
 
 .contact-info-icon .material-symbols-outlined {
@@ -1387,7 +1387,7 @@ button, a {
   display: flex;
   align-items: center;
   justify-content: center;
-  color: #e31e24;
+  color: #4ea08d;
   box-shadow: 0 1px 3px 0 rgba(0, 0, 0, 0.1);
 }
 
@@ -1410,8 +1410,8 @@ button, a {
   background-color: white;
   padding: 2rem;
   border-radius: 2rem;
-  box-shadow: 0 0 20px rgba(239, 68, 68, 0.15);
-  border: 1px solid rgba(239, 68, 68, 0.2);
+  box-shadow: 0 0 20px rgba(33, 118, 151, 0.26);
+  border: 1px solid rgba(93, 191, 230, 0.692);
 }
 
 @media (min-width: 768px) {
@@ -1467,7 +1467,7 @@ button, a {
 .form-textarea:focus,
 .form-select:focus {
   outline: none;
-  box-shadow: 0 0 0 1px #b91c1c;
+  box-shadow: 0 0 0 1px #4eb0af;
 }
 
 .form-textarea {
@@ -1494,7 +1494,7 @@ button, a {
 
 .btn-submit {
   width: 100%;
-  background: linear-gradient(to right, #f59e0b, #881337);
+  background: linear-gradient(135deg, #90d7e6 0%, #4eb0af 42%, #4ea08d 100%);
   color: white;
   padding: 1.25rem;
   border-radius: 1rem;
@@ -1502,7 +1502,7 @@ button, a {
   font-size: 1.125rem;
   border: none;
   cursor: pointer;
-  box-shadow: 0 10px 20px rgba(136, 19, 55, 0.2);
+  box-shadow: 0 10px 20px rgba(28, 99, 128, 0.26);
   display: flex;
   align-items: center;
   justify-content: center;
@@ -1555,7 +1555,7 @@ button, a {
 /* Journey Section */
 .journey-section {
   padding: 3rem 0;
-  background: linear-gradient(135deg, #fff9f0 0%, #fff5f7 100%);
+  background: #f8fafc;
 }
 
 @media (min-width: 768px) {
@@ -1693,7 +1693,7 @@ button, a {
   background: white;
   padding: 3rem;
   border-radius: 24px;
-  box-shadow: 0 4px 20px rgba(163, 44, 24, 0.5);
+  box-shadow: 0 4px 20px rgba(15, 76, 100, 0.5);
   border: 1px solid rgba(0, 0, 0, 0.05);
 }
 
@@ -1729,7 +1729,7 @@ button, a {
 }
 
 .creative-icon {
-  background: linear-gradient(135deg, #FFD200 0%, #E31E24 100%);
+  background: linear-gradient(135deg, #90d7e6 0%, #4eb0af 42%, #4ea08d 100%);
   color: white;
   width: 48px;
   height: 48px;
@@ -1751,7 +1751,7 @@ button, a {
 /* Team Section */
 .team-section {
   padding: 5rem 0 8rem 0;
-  background: linear-gradient(135deg, #fff9f0 0%, #fff5f7 100%);
+  background: #f8fafc;
 }
 
 .team-grid {
@@ -1798,7 +1798,7 @@ button, a {
   background: white;
   padding: 2.5rem;
   border-radius: 24px;
-  box-shadow: 0 4px 20px rgba(163, 44, 24, 0.5);
+  box-shadow: 0 4px 20px rgba(15, 76, 100, 0.4);
   border: 1px solid rgba(0, 0, 0, 0.05);
   text-align: center;
   transition: transform 0.3s ease, box-shadow 0.3s ease;
@@ -1887,7 +1887,7 @@ button, a {
 }
 
 .text-highlight {
-  background: linear-gradient(135deg, #ff9408 0%, #95122c 100%);
+  background: linear-gradient(135deg, #90d7e6 0%, #4eb0af 42%, #1f5f7a 100%);
   -webkit-background-clip: text;
   -webkit-text-fill-color: transparent;
   background-clip: text;
@@ -1957,7 +1957,7 @@ button, a {
   font-size: 2rem;
   font-weight: 800;
   margin-bottom: 1rem;
-  background: linear-gradient(135deg, #ff6b35 0%, #f7931e 100%);
+  background: linear-gradient(135deg,  #90d7e6 0%, #4eb0af 42%, #4ea08d 100%);
   -webkit-background-clip: text;
   -webkit-text-fill-color: transparent;
   background-clip: text;
@@ -2015,10 +2015,11 @@ button, a {
 }
 
 .test-icon {
-  background: #fed7aa;
+  background: #90d8e67e;
+  /* linear-gradient(135deg, #90d7e6 0%, #4eb0af 42%, #4ea08d 100%); */
   padding: 4px;
   border-radius: 50%;
-  color: #ff6b35;
+  color: #38a5a3;
   flex-shrink: 0;
   display: flex;
   align-items: center;
@@ -2050,7 +2051,7 @@ button, a {
 }
 
 .btn-test-start {
-  background: linear-gradient(135deg, #ff6b35 0%, #f7931e 100%);
+  background: linear-gradient(135deg, #90d7e6 0%, #4eb0af 42%, #4ea08d 100%);;
   color: white;
   font-size: 1.25rem;
   font-weight: 700;
@@ -2061,7 +2062,7 @@ button, a {
   display: flex;
   align-items: center;
   gap: 0.75rem;
-  box-shadow: 0 10px 25px rgba(255, 107, 53, 0.3);
+  box-shadow: 0 10px 25px rgba(28, 99, 128, 0.26);
   transition: all 0.2s ease;
   text-decoration: none;
   justify-content: center;
@@ -2069,7 +2070,7 @@ button, a {
 
 .btn-test-start:hover {
   transform: scale(1.05);
-  box-shadow: 0 15px 35px rgba(255, 107, 53, 0.4);
+  box-shadow: 0 15px 35px rgba(28, 99, 128, 0.4);
 }
 
 .btn-test-start:active {
