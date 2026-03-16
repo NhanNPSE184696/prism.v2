@@ -1,7 +1,7 @@
 /* Test Hero Section */
 .test-hero-section {
   padding: 120px 16px 60px;
-  background: linear-gradient(135deg, #fff5f0 0%, #ffffff 100%);
+  background: linear-gradient(135deg, #e8f8f7 0%, #ffffff 100%);
 }
 
 .test-hero-container {
@@ -15,7 +15,7 @@
   font-weight: 800;
   margin-bottom: 24px;
   line-height: 1.2;
-  background: linear-gradient(135deg, #ff6b35 0%, #f7931e 100%);
+  background: linear-gradient(135deg, #4ea08d 0%, #0f4c64 100%);
   -webkit-background-clip: text;
   -webkit-text-fill-color: transparent;
   background-clip: text;
@@ -82,7 +82,7 @@
   right: 0;
   margin-right: -64px;
   margin-top: -64px;
-  background: rgba(255, 107, 53, 0.05);
+  background: rgba(78, 160, 141, 0.12);
 }
 
 .test-intro-bg-2 {
@@ -90,7 +90,7 @@
   left: 0;
   margin-left: -64px;
   margin-bottom: -64px;
-  background: rgba(247, 147, 30, 0.05);
+  background: rgba(72, 209, 204, 0.12);
 }
 
 .test-intro-content {
@@ -127,10 +127,10 @@
 }
 
 .test-intro-icon {
-  background: #fed7aa;
+  background: #d5f3f2;
   padding: 4px;
   border-radius: 50%;
-  color: #ff6b35;
+  color: #4ea08d;
   flex-shrink: 0;
   display: flex;
   align-items: center;
@@ -161,7 +161,7 @@
 }
 
 .test-start-btn {
-  background: linear-gradient(135deg, #ff6b35 0%, #f7931e 100%);
+  background: linear-gradient(135deg, #48d1cc 0%, #00cc99 100%);
   color: white;
   font-size: 1.25rem;
   font-weight: 700;
@@ -172,13 +172,13 @@
   display: flex;
   align-items: center;
   gap: 12px;
-  box-shadow: 0 10px 25px rgba(255, 107, 53, 0.3);
+  box-shadow: 0 10px 25px rgba(0, 204, 153, 0.28);
   transition: all 0.2s ease;
 }
 
 .test-start-btn:hover {
   transform: scale(1.05);
-  box-shadow: 0 15px 35px rgba(255, 107, 53, 0.4);
+  box-shadow: 0 15px 35px rgba(0, 204, 153, 0.35);
 }
 
 .test-start-btn:active {
@@ -202,8 +202,17 @@
 /* Test Wizard Section */
 .test-wizard-section {
   padding: 140px 16px 80px;
-  background: linear-gradient(135deg, #fff5f0 0%, #ffffff 100%);
+  background: linear-gradient(135deg, #e8f8f7 0%, #f4fffb 45%, #e0faf4 100%);
   min-height: 100vh;
+  transition: background 0.35s ease;
+}
+
+.test-wizard-section-mid {
+  background: linear-gradient(135deg, #fff7ed 0%, #ffedd5 45%, #fed7aa 100%);
+}
+
+.test-wizard-section-high {
+  background: linear-gradient(135deg, #fef2f2 0%, #fee2e2 45%, #fecaca 100%);
 }
 
 .test-wizard-container {
@@ -238,6 +247,100 @@
 .test-result-container {
   max-width: 900px;
   margin: 0 auto;
+  --result-accent: #4ea08d;
+  --result-soft-bg: #ecfbf7;
+  --result-border: #b7eee1;
+  --result-accent-strong: #3e8f7e;
+  animation: resultFadeIn 0.45s ease-out;
+}
+
+.test-result-container .test-result-title {
+  color: var(--result-accent);
+  transition: color 0.45s ease;
+}
+
+.test-result-container .test-result-score,
+.test-result-container .test-result-card {
+  border-color: var(--result-border);
+  transition: border-color 0.45s ease, box-shadow 0.45s ease;
+}
+
+.test-result-container .test-result-section-highlight {
+  border-left-color: var(--result-accent);
+  transition: border-left-color 0.45s ease;
+}
+
+.test-result-container .test-result-btn {
+  background: linear-gradient(135deg, var(--result-accent) 0%, var(--result-accent-strong) 100%);
+  box-shadow: 0 6px 20px color-mix(in srgb, var(--result-accent) 35%, transparent);
+  transition: background 0.45s ease, box-shadow 0.45s ease, transform 0.2s ease;
+}
+
+.test-result-container .test-result-btn:hover {
+  box-shadow: 0 8px 25px color-mix(in srgb, var(--result-accent) 45%, transparent);
+}
+
+.test-result-container .test-result-disclaimer {
+  background: var(--result-soft-bg);
+  border-color: var(--result-border);
+  transition: background-color 0.45s ease, border-color 0.45s ease;
+}
+
+.test-result-container .test-result-disclaimer .material-symbols-outlined {
+  color: var(--result-accent);
+  transition: color 0.45s ease;
+}
+
+.test-result-container-mid {
+  --result-accent: #f7931e;
+  --result-soft-bg: #fff7ed;
+  --result-border: #fed7aa;
+  --result-accent-strong: #ff6b35;
+  animation: resultToneMid 0.65s ease-out;
+}
+
+.test-result-container-high {
+  --result-accent: #dc2626;
+  --result-soft-bg: #fef2f2;
+  --result-border: #fecaca;
+  --result-accent-strong: #b91c1c;
+  animation: resultToneHigh 0.65s ease-out;
+}
+
+@keyframes resultFadeIn {
+  from {
+    opacity: 0;
+    transform: translateY(12px);
+  }
+  to {
+    opacity: 1;
+    transform: translateY(0);
+  }
+}
+
+@keyframes resultToneMid {
+  0% {
+    filter: saturate(0.92);
+    transform: scale(0.985);
+  }
+  100% {
+    filter: saturate(1);
+    transform: scale(1);
+  }
+}
+
+@keyframes resultToneHigh {
+  0% {
+    filter: saturate(0.88);
+    transform: scale(0.985);
+  }
+  60% {
+    filter: saturate(1.08);
+  }
+  100% {
+    filter: saturate(1);
+    transform: scale(1);
+  }
 }
 
 .test-result-header {
@@ -328,7 +431,7 @@
 }
 
 .test-result-section-highlight {
-  border-left: 4px solid #ff6b35;
+  border-left: 4px solid #4eb0af;
 }
 
 .test-result-section-title {
@@ -357,7 +460,7 @@
 }
 
 .test-result-btn {
-  background: linear-gradient(135deg, #ff6b35 0%, #f7931e 100%);
+  background: linear-gradient(135deg, #48d1cc 0%, #00cc99 100%);
   color: white;
   font-size: 1rem;
   font-weight: 600;
@@ -368,13 +471,13 @@
   display: inline-flex;
   align-items: center;
   gap: 8px;
-  box-shadow: 0 6px 20px rgba(255, 107, 53, 0.3);
+  box-shadow: 0 6px 20px rgba(0, 204, 153, 0.28);
   transition: all 0.2s ease;
 }
 
 .test-result-btn:hover {
   transform: translateY(-2px);
-  box-shadow: 0 8px 25px rgba(255, 107, 53, 0.4);
+  box-shadow: 0 8px 25px rgba(0, 204, 153, 0.35);
 }
 
 .test-result-btn .material-symbols-outlined {
@@ -387,13 +490,13 @@
   gap: 12px;
   align-items: flex-start;
   padding: 16px;
-  background: #fff9f5;
+  background: #f0fbf8;
   border-radius: 12px;
-  border: 1px solid #fed7aa;
+  border: 1px solid #bfeee2;
 }
 
 .test-result-disclaimer .material-symbols-outlined {
-  color: #f59e0b;
+  color: #4ea08d;
   font-size: 20px;
   flex-shrink: 0;
 }
@@ -478,7 +581,7 @@
   }
 
   .test-intro-icon {
-    background: rgba(255, 107, 53, 0.3);
+    background: rgba(72, 209, 204, 0.28);
   }
 
   .test-intro-text,
@@ -513,7 +616,7 @@
   }
 
   .test-intro-icon {
-    background: rgba(255, 107, 53, 0.3);
+    background: rgba(72, 209, 204, 0.28);
   }
 
   .test-intro-text {

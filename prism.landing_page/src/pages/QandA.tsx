@@ -105,6 +105,7 @@ const AnswerModal = ({ question, answer, onClose }: AnswerModalProps) => {
 const QandA = () => {
   const [currentIndex, setCurrentIndex] = useState(0);
   const [selectedQuestion, setSelectedQuestion] = useState<number | null>(null);
+  const [cardsPerView, setCardsPerView] = useState(4);
   const autoPlayRef = useRef<number | null>(null);
   const [email, setEmail] = useState('');
   const [question, setQuestion] = useState('');
@@ -334,6 +335,26 @@ https://nhathuoclongchau.com.vn/bai-viet/xuat-huyet-da-day-non-ra-mau-co-nguy-hi
     }
   };
 
+  const getCardsPerView = () => {
+    if (window.innerWidth <= 480) return 1;
+    if (window.innerWidth <= 768) return 2;
+    if (window.innerWidth <= 1024) return 3;
+    return 4;
+  };
+
+  useEffect(() => {
+    const handleResize = () => {
+      setCardsPerView(getCardsPerView());
+    };
+
+    handleResize();
+    window.addEventListener('resize', handleResize);
+
+    return () => {
+      window.removeEventListener('resize', handleResize);
+    };
+  }, []);
+
   // Auto-play effect
   useEffect(() => {
     autoPlayRef.current = setInterval(() => {
@@ -376,12 +397,18 @@ https://nhathuoclongchau.com.vn/bai-viet/xuat-huyet-da-day-non-ra-mau-co-nguy-hi
             <div 
               className="qa-slider-content"
               style={{
-                transform: `translateX(-${(currentIndex * 100) / 4}%)`
+                transform: `translateX(-${(currentIndex * 100) / cardsPerView}%)`
               }}
             >
               {/* Duplicate questions for infinite scroll effect */}
               {[...questions, ...questions].map((question, index) => (
-                <div key={index} className="qa-slider-item">
+                <div
+                  key={index}
+                  className="qa-slider-item"
+                  style={{
+                    minWidth: `${100 / cardsPerView}%`
+                  }}
+                >
                   <QuestionCard 
                     question={question} 
                     index={index % questions.length}

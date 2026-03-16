@@ -183,12 +183,12 @@ button, a {
 }
 
 .btn-orange {
-  background: linear-gradient(135deg, #ffa726 0%, #ff8c42 100%);
+  background: #20b2aa;
   color: white;
 }
 
 .btn-red {
-  background: linear-gradient(135deg, #b71c1c 0%, #d32f2f 100%);
+  background: #009b7d;
   color: white;
 }
 
