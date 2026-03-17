@@ -15,6 +15,16 @@ const getToneByScore = (score: number): ThemeTone => {
   return 'low';
 };
 
+const trackGaEvent = (eventName: string, params: Record<string, string | number | boolean>) => {
+  const gtag = (window as Window & {
+    gtag?: (command: 'event', name: string, parameters?: Record<string, unknown>) => void;
+  }).gtag;
+
+  if (!gtag) return;
+
+  gtag('event', eventName, params);
+};
+
 const Test = () => {
   const location = useLocation();
   
@@ -32,6 +42,11 @@ const Test = () => {
   }, [started, result]);
 
   const handleStart = () => {
+    trackGaEvent('test_start_clicked', {
+      button_text: 'Bat dau test ngay',
+      page_path: location.pathname,
+      auto_start: shouldAutoStart,
+    });
     setLiveScore(0);
     setStarted(true);
   };
