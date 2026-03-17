@@ -4,11 +4,13 @@ import { Analytics } from "@vercel/analytics/react"
 import { SpeedInsights } from "@vercel/speed-insights/react"
 import HomePage from './pages/HomePage';
 import Test from './pages/Test';
+import useTrackRoute from './useTrackRoute';
 // import AboutUs from './pages/AboutUs';
 import './App.css'
 
 function AppContent() {
   const location = useLocation();
+  useTrackRoute();
 
   useEffect(() => {
     // Let HomePage handle all scrolling
