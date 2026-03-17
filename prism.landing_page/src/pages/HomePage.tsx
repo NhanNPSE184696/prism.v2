@@ -13,6 +13,16 @@ import thanhThaoImg from '../assets/Images/ThanhThao.jpg';
 import traMyImg from '../assets/Images/TraMy.jpg';
 import './HomePage.css';
 
+const trackGaEvent = (eventName: string, params: Record<string, string | number | boolean>) => {
+  const gtag = (window as Window & {
+    gtag?: (command: 'event', name: string, parameters?: Record<string, unknown>) => void;
+  }).gtag;
+
+  if (!gtag) return;
+
+  gtag('event', eventName, params);
+};
+
 const HomePage = () => {
   const location = useLocation();
   const navigate = useNavigate();
@@ -24,6 +34,14 @@ const HomePage = () => {
   const [toastTitle, setToastTitle] = useState('');
   const [toastMessage, setToastMessage] = useState('');
   const [isSending, setIsSending] = useState(false);
+
+  const handleStartTestClick = () => {
+    trackGaEvent('test_start_clicked', {
+      cta_location: 'homepage_test_section',
+      page_path: location.pathname,
+      auto_start: true,
+    });
+  };
 
   // Toast helper function
   const displayToast = (title: string, message: string) => {
@@ -499,7 +517,12 @@ const HomePage = () => {
               </div>
 
               <div className="test-actions">
-                <Link to="/test-start" state={{ autoStart: true }} className="btn-test-start">
+                <Link
+                  to="/test-start"
+                  state={{ autoStart: true }}
+                  className="btn-test-start"
+                  onClick={handleStartTestClick}
+                >
                   <span className="material-symbols-outlined">play_arrow</span>
                   Bắt đầu test ngay
                 </Link>
