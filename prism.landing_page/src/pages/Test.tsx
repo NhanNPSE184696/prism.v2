@@ -3,7 +3,9 @@ import { useLocation } from 'react-router-dom';
 import Header from '../components/Header';
 import Footer from '../components/Footer';
 import { TestWizard } from '../components/TestWizard';
+import { Toast } from '../components/Toast';
 import { testItems } from '../data/testData';
+import { isSupabaseConfigured, supabase } from '../lib/supabase';
 import type { TestResult } from '../types';
 import './Test.css';
 
@@ -16,9 +18,9 @@ const getToneByScore = (score: number): ThemeTone => {
 };
 
 const trackGaEvent = (eventName: string, params: Record<string, string | number | boolean>) => {
-  const gtag = (window as Window & {
+  const { gtag } = window as Window & {
     gtag?: (command: 'event', name: string, parameters?: Record<string, unknown>) => void;
-  }).gtag;
+  };
 
   if (!gtag) return;
 
@@ -31,9 +33,27 @@ const Test = () => {
   // Check if auto-start from HomePage
   const shouldAutoStart = (location.state as { autoStart?: boolean } | null)?.autoStart || false;
   
-  const [started, setStarted] = useState(shouldAutoStart);
+  const [started, setStarted] = useState(false);
   const [result, setResult] = useState<TestResult | null>(null);
   const [liveScore, setLiveScore] = useState(0);
+  const [formError, setFormError] = useState('');
+  const [saveStatus, setSaveStatus] = useState<'idle' | 'saving' | 'success' | 'error'>('idle');
+  const [saveErrorMessage, setSaveErrorMessage] = useState('');
+  const [showSaveSuccessToast, setShowSaveSuccessToast] = useState(false);
+  const [showSaveErrorToast, setShowSaveErrorToast] = useState(false);
+  const [userInfo, setUserInfo] = useState({
+    name: '',
+    age: '',
+    email: '',
+  });
+
+  const trimmedName = userInfo.name.trim();
+  const trimmedEmail = userInfo.email.trim();
+  const ageValue = Number(userInfo.age);
+  const isNameValid = trimmedName.length > 0;
+  const isAgeValid = Number.isInteger(ageValue) && ageValue >= 1 && ageValue <= 120;
+  const isEmailValid = /^[^\s@]+@[^\s@]+\.[^\s@]+$/.test(trimmedEmail);
+  const isFormValid = isNameValid && isAgeValid && isEmailValid;
 
   const activeTone: ThemeTone = result?.cls ?? getToneByScore(liveScore);
 
@@ -41,24 +61,111 @@ const Test = () => {
     window.scrollTo({ top: 0, behavior: 'instant' as ScrollBehavior });
   }, [started, result]);
 
-  const handleStart = () => {
+  const handleStart = (event: React.FormEvent<HTMLFormElement>) => {
+    event.preventDefault();
+
+    if (!isFormValid) {
+      setFormError('Vui lòng nhập đầy đủ Tên, Tuổi và Email hợp lệ để bắt đầu bài test.');
+      return;
+    }
+
+    setFormError('');
     trackGaEvent('test_start_clicked', {
       button_text: 'Bat dau test ngay',
       page_path: location.pathname,
       auto_start: shouldAutoStart,
+      form_completed: true,
     });
     setLiveScore(0);
     setStarted(true);
   };
 
+  const handleInputChange = (event: React.ChangeEvent<HTMLInputElement>) => {
+    const { name, value } = event.target;
+    setUserInfo((previous) => ({
+      ...previous,
+      [name]: value,
+    }));
+    if (formError) {
+      setFormError('');
+    }
+  };
+
   const handleComplete = (testResult: TestResult) => {
+    const payload = {
+      name: trimmedName,
+      age: ageValue,
+      email: trimmedEmail,
+      score: testResult.score,
+      result_class: testResult.cls,
+      result_title: testResult.resultTitle,
+    };
+
     setResult(testResult);
+    setSaveStatus('saving');
+    setSaveErrorMessage('');
+    setShowSaveSuccessToast(false);
+    setShowSaveErrorToast(false);
+
+    if (!isSupabaseConfigured || !supabase) {
+      setSaveStatus('error');
+      setSaveErrorMessage('Chưa cấu hình Supabase. Vui lòng thêm VITE_SUPABASE_URL và VITE_SUPABASE_ANON_KEY.');
+      setShowSaveErrorToast(true);
+      return;
+    }
+
+    void (async () => {
+      try {
+        const { error } = await supabase
+          .from('test_submissions')
+          .insert(payload);
+
+        if (error) {
+          const detailedMessage = [error.message, error.details, error.hint]
+            .filter(Boolean)
+            .join(' | ');
+
+          console.error('Supabase insert error (test_submissions):', {
+            code: error.code,
+            message: error.message,
+            details: error.details,
+            hint: error.hint,
+            payload,
+          });
+
+          setSaveStatus('error');
+          setSaveErrorMessage(
+            detailedMessage
+              ? `Không thể lưu kết quả: ${detailedMessage}`
+              : 'Không thể lưu kết quả lúc này. Vui lòng kiểm tra cấu hình Supabase/RLS.'
+          );
+          setShowSaveErrorToast(true);
+          return;
+        }
+
+        setSaveStatus('success');
+        setShowSaveSuccessToast(true);
+      } catch {
+        const configuredUrl = import.meta.env.VITE_SUPABASE_URL as string | undefined;
+        setSaveStatus('error');
+        setSaveErrorMessage(
+          configuredUrl
+            ? `Không thể kết nối Supabase. Kiểm tra lại VITE_SUPABASE_URL: ${configuredUrl}`
+            : 'Không thể kết nối Supabase để lưu kết quả.'
+        );
+        setShowSaveErrorToast(true);
+      }
+    })();
   };
 
   const handleRestart = () => {
     setResult(null);
     setLiveScore(0);
     setStarted(false);
+    setSaveStatus('idle');
+    setSaveErrorMessage('');
+    setShowSaveSuccessToast(false);
+    setShowSaveErrorToast(false);
   };
 
   // Intro Screen
@@ -109,13 +216,62 @@ const Test = () => {
                   </ul>
 
                   <div className="test-intro-actions">
-                    <button 
-                      className="test-start-btn"
-                      onClick={handleStart}
-                    >
-                      <span className="material-symbols-outlined">play_arrow</span>
-                      Bắt đầu test ngay
-                    </button>
+                    <form className="test-intro-form" onSubmit={handleStart} noValidate>
+                      <div className="test-intro-form-field">
+                        <label htmlFor="test-user-name">Tên</label>
+                        <input
+                          id="test-user-name"
+                          name="name"
+                          type="text"
+                          placeholder="Nhập tên của bạn"
+                          value={userInfo.name}
+                          onChange={handleInputChange}
+                          autoComplete="name"
+                          required
+                        />
+                      </div>
+
+                      <div className="test-intro-form-field">
+                        <label htmlFor="test-user-age">Tuổi</label>
+                        <input
+                          id="test-user-age"
+                          name="age"
+                          type="number"
+                          min={1}
+                          max={120}
+                          placeholder="Nhập tuổi của bạn"
+                          value={userInfo.age}
+                          onChange={handleInputChange}
+                          required
+                        />
+                      </div>
+
+                      <div className="test-intro-form-field">
+                        <label htmlFor="test-user-email">Email</label>
+                        <input
+                          id="test-user-email"
+                          name="email"
+                          type="email"
+                          placeholder="Nhập email của bạn"
+                          value={userInfo.email}
+                          onChange={handleInputChange}
+                          autoComplete="email"
+                          required
+                        />
+                      </div>
+
+                      {formError && (
+                        <p className="test-intro-form-error">{formError}</p>
+                      )}
+
+                      <button
+                        type="submit"
+                        className="test-start-btn"
+                      >
+                        <span className="material-symbols-outlined">play_arrow</span>
+                        Bắt đầu test ngay
+                      </button>
+                    </form>
                     
                     <p className="test-intro-disclaimer">
                       *Kết quả chỉ mang tính chất tham khảo. Vui lòng tham khảo ý kiến bác sĩ để được chẩn đoán và điều trị chính xác.
@@ -154,6 +310,19 @@ const Test = () => {
               </>
             ) : (
               <div className={`test-result-container test-result-container-${result.cls}`}>
+                <Toast
+                  show={showSaveSuccessToast}
+                  title="Đã lưu kết quả"
+                  message="Kết quả của bạn đã được lưu thành công."
+                  onClose={() => setShowSaveSuccessToast(false)}
+                />
+                <Toast
+                  show={showSaveErrorToast}
+                  title="Lưu kết quả thất bại"
+                  message={saveErrorMessage}
+                  onClose={() => setShowSaveErrorToast(false)}
+                />
+
                 <div className="test-result-header">
                   <h1 className="test-result-title">KẾT QUẢ ĐÁNH GIÁ</h1>
                 </div>
@@ -191,6 +360,12 @@ const Test = () => {
                       <span className="material-symbols-outlined">refresh</span>
                       Làm lại
                     </button>
+                  </div>
+
+                  <div className="test-result-save-status" role="status" aria-live="polite">
+                    {saveStatus === 'saving' && (
+                      <p className="test-result-save-status-text">Đang lưu kết quả của bạn...</p>
+                    )}
                   </div>
 
                   <div className="test-result-disclaimer">

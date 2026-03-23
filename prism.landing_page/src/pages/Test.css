@@ -157,7 +157,92 @@
   display: flex;
   flex-direction: column;
   align-items: center;
-  gap: 32px;
+
+.test-result-save-status {
+  margin-top: 14px;
+}
+
+.test-result-save-status-text {
+  margin: 0;
+  text-align: center;
+  font-size: 0.9rem;
+  color: #4b5563;
+}
+
+.test-result-save-status-success {
+  color: #047857;
+  font-weight: 600;
+}
+
+.test-result-save-status-error {
+  color: #b91c1c;
+  font-weight: 500;
+}
+  gap: 20px;
+}
+
+.test-intro-form {
+  width: 100%;
+  max-width: 460px;
+  display: flex;
+  flex-direction: column;
+  gap: 14px;
+  padding: 20px;
+  border-radius: 20px;
+  border: 1px solid #cdece5;
+  background: linear-gradient(135deg, #f6fffc 0%, #ffffff 100%);
+  box-shadow: 0 10px 24px rgba(15, 76, 100, 0.08);
+}
+
+@media (min-width: 768px) {
+  .test-intro-form {
+    padding: 24px;
+  }
+}
+
+.test-intro-form-field {
+  display: flex;
+  flex-direction: column;
+  gap: 8px;
+}
+
+.test-intro-form-field label {
+  font-size: 0.95rem;
+  font-weight: 600;
+  color: #0f4c64;
+}
+
+.test-intro-form-field input {
+  width: 100%;
+  height: 50px;
+  border-radius: 12px;
+  border: 1px solid #b8ddd5;
+  padding: 0 14px;
+  font-size: 1rem;
+  color: #1f2937;
+  background: #fbfffe;
+  transition: border-color 0.2s ease, box-shadow 0.2s ease;
+}
+
+.test-intro-form-field input:focus {
+  outline: none;
+  border-color: #2f9f90;
+  box-shadow: 0 0 0 3px rgba(47, 159, 144, 0.2);
+}
+
+.test-intro-form-field input::placeholder {
+  color: #9ca3af;
+}
+
+.test-intro-form-error {
+  margin: 0;
+  font-size: 0.9rem;
+  font-weight: 500;
+  color: #b91c1c;
+  background: #fff1f2;
+  border: 1px solid #fecdd3;
+  border-radius: 12px;
+  padding: 10px 12px;
 }
 
 .test-start-btn {
@@ -165,6 +250,8 @@
   color: white;
   font-size: 1.25rem;
   font-weight: 700;
+  width: 100%;
+  justify-content: center;
   padding: 20px 48px;
   border-radius: 16px;
   border: none;
