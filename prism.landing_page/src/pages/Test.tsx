@@ -31,9 +31,23 @@ const Test = () => {
   // Check if auto-start from HomePage
   const shouldAutoStart = (location.state as { autoStart?: boolean } | null)?.autoStart || false;
   
-  const [started, setStarted] = useState(shouldAutoStart);
+  const [started, setStarted] = useState(false);
   const [result, setResult] = useState<TestResult | null>(null);
   const [liveScore, setLiveScore] = useState(0);
+  const [formError, setFormError] = useState('');
+  const [userInfo, setUserInfo] = useState({
+    name: '',
+    age: '',
+    email: '',
+  });
+
+  const trimmedName = userInfo.name.trim();
+  const trimmedEmail = userInfo.email.trim();
+  const ageValue = Number(userInfo.age);
+  const isNameValid = trimmedName.length > 0;
+  const isAgeValid = Number.isInteger(ageValue) && ageValue >= 1 && ageValue <= 120;
+  const isEmailValid = /^[^\s@]+@[^\s@]+\.[^\s@]+$/.test(trimmedEmail);
+  const isFormValid = isNameValid && isAgeValid && isEmailValid;
 
   const activeTone: ThemeTone = result?.cls ?? getToneByScore(liveScore);
 
@@ -41,14 +55,34 @@ const Test = () => {
     window.scrollTo({ top: 0, behavior: 'instant' as ScrollBehavior });
   }, [started, result]);
 
-  const handleStart = () => {
+  const handleStart = (event: React.FormEvent<HTMLFormElement>) => {
+    event.preventDefault();
+
+    if (!isFormValid) {
+      setFormError('Vui lòng nhập đầy đủ Tên, Tuổi và Email hợp lệ để bắt đầu bài test.');
+      return;
+    }
+
+    setFormError('');
     trackGaEvent('test_start_clicked', {
       button_text: 'Bat dau test ngay',
       page_path: location.pathname,
       auto_start: shouldAutoStart,
+      form_completed: true,
     });
     setLiveScore(0);
     setStarted(true);
+  };
+
+  const handleInputChange = (event: React.ChangeEvent<HTMLInputElement>) => {
+    const { name, value } = event.target;
+    setUserInfo((previous) => ({
+      ...previous,
+      [name]: value,
+    }));
+    if (formError) {
+      setFormError('');
+    }
   };
 
   const handleComplete = (testResult: TestResult) => {
@@ -109,13 +143,62 @@ const Test = () => {
                   </ul>
 
                   <div className="test-intro-actions">
-                    <button 
-                      className="test-start-btn"
-                      onClick={handleStart}
-                    >
-                      <span className="material-symbols-outlined">play_arrow</span>
-                      Bắt đầu test ngay
-                    </button>
+                    <form className="test-intro-form" onSubmit={handleStart} noValidate>
+                      <div className="test-intro-form-field">
+                        <label htmlFor="test-user-name">Tên</label>
+                        <input
+                          id="test-user-name"
+                          name="name"
+                          type="text"
+                          placeholder="Nhập tên của bạn"
+                          value={userInfo.name}
+                          onChange={handleInputChange}
+                          autoComplete="name"
+                          required
+                        />
+                      </div>
+
+                      <div className="test-intro-form-field">
+                        <label htmlFor="test-user-age">Tuổi</label>
+                        <input
+                          id="test-user-age"
+                          name="age"
+                          type="number"
+                          min={1}
+                          max={120}
+                          placeholder="Nhập tuổi của bạn"
+                          value={userInfo.age}
+                          onChange={handleInputChange}
+                          required
+                        />
+                      </div>
+
+                      <div className="test-intro-form-field">
+                        <label htmlFor="test-user-email">Email</label>
+                        <input
+                          id="test-user-email"
+                          name="email"
+                          type="email"
+                          placeholder="Nhập email của bạn"
+                          value={userInfo.email}
+                          onChange={handleInputChange}
+                          autoComplete="email"
+                          required
+                        />
+                      </div>
+
+                      {formError && (
+                        <p className="test-intro-form-error">{formError}</p>
+                      )}
+
+                      <button
+                        type="submit"
+                        className="test-start-btn"
+                      >
+                        <span className="material-symbols-outlined">play_arrow</span>
+                        Bắt đầu test ngay
+                      </button>
+                    </form>
                     
                     <p className="test-intro-disclaimer">
                       *Kết quả chỉ mang tính chất tham khảo. Vui lòng tham khảo ý kiến bác sĩ để được chẩn đoán và điều trị chính xác.
