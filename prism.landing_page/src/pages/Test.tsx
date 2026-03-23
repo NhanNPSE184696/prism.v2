@@ -11,6 +11,12 @@ import './Test.css';
 
 type ThemeTone = 'low' | 'mid' | 'high';
 
+const INITIAL_USER_INFO = {
+  name: '',
+  age: '',
+  email: '',
+};
+
 const getToneByScore = (score: number): ThemeTone => {
   if (score >= 18) return 'high';
   if (score >= 9) return 'mid';
@@ -41,11 +47,7 @@ const Test = () => {
   const [saveErrorMessage, setSaveErrorMessage] = useState('');
   const [showSaveSuccessToast, setShowSaveSuccessToast] = useState(false);
   const [showSaveErrorToast, setShowSaveErrorToast] = useState(false);
-  const [userInfo, setUserInfo] = useState({
-    name: '',
-    age: '',
-    email: '',
-  });
+  const [userInfo, setUserInfo] = useState(INITIAL_USER_INFO);
 
   const trimmedName = userInfo.name.trim();
   const trimmedEmail = userInfo.email.trim();
@@ -162,6 +164,8 @@ const Test = () => {
     setResult(null);
     setLiveScore(0);
     setStarted(false);
+    setFormError('');
+    setUserInfo({ ...INITIAL_USER_INFO });
     setSaveStatus('idle');
     setSaveErrorMessage('');
     setShowSaveSuccessToast(false);
@@ -216,7 +220,7 @@ const Test = () => {
                   </ul>
 
                   <div className="test-intro-actions">
-                    <form className="test-intro-form" onSubmit={handleStart} noValidate>
+                    <form className="test-intro-form" onSubmit={handleStart} noValidate autoComplete="off">
                       <div className="test-intro-form-field">
                         <label htmlFor="test-user-name">Tên</label>
                         <input
@@ -226,7 +230,7 @@ const Test = () => {
                           placeholder="Nhập tên của bạn"
                           value={userInfo.name}
                           onChange={handleInputChange}
-                          autoComplete="name"
+                          autoComplete="off"
                           required
                         />
                       </div>
@@ -255,7 +259,7 @@ const Test = () => {
                           placeholder="Nhập email của bạn"
                           value={userInfo.email}
                           onChange={handleInputChange}
-                          autoComplete="email"
+                          autoComplete="off"
                           required
                         />
                       </div>
