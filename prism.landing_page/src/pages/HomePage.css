@@ -95,7 +95,7 @@ button, a {
 }
 
 .hero-subtitle {
-  font-size: 1.125rem;
+  font-size: 0.875rem;
   font-weight: 800;
   color: #0f172a;
   margin-bottom: 1.5rem;
@@ -103,19 +103,19 @@ button, a {
 
 @media (min-width: 480px) {
   .hero-subtitle {
-    font-size: 1.25rem;
+    font-size: 1rem;
   }
 }
 
 @media (min-width: 768px) {
   .hero-subtitle {
-    font-size: 1.5rem;
+    font-size: 1.25rem;
   }
 }
 
 @media (min-width: 1024px) {
   .hero-subtitle {
-    font-size: 2.25rem;
+    font-size: 2rem;
   }
 }
 

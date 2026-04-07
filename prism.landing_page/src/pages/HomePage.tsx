@@ -244,7 +244,7 @@ const HomePage = () => {
         <div className="hero-container">
           <h1 className="hero-title">ÊM DẠ MODE</h1>
           <h2 className="hero-subtitle">
-            Bật mode "Êm Dạ", nhịp sống mượt mà!
+            Đừng sống cùng cơn đau, thay đổi lối sống để Êm Dạ dài lâu.
           </h2>
           <p className="hero-description">
             Chiến dịch truyền thông gia tăng nhận thức về mức độ nghiêm trọng của bệnh lý dạ dày cho người trẻ từ 18 đến 24 tuổi tại TP. Hồ Chí Minh.
@@ -405,7 +405,7 @@ const HomePage = () => {
             </div>
             <div className="about-card-content">
               <p className="creative-slogan">
-                <strong className="text-highlight">"Bật mode Êm Dạ, nhịp sống mượt mà"</strong> - Đây là thông điệp cốt lõi của chiến dịch, được xây dựng dựa trên insight rằng giới trẻ thường xuyên phải "chuyển đổi mode" trong cuộc sống: mode học tập, mode giải trí, mode làm việc...
+                <strong className="text-highlight">"Đừng sống cùng cơn đau, thay đổi lối sống để Êm Dạ dài lâu."</strong> - Đây là thông điệp cốt lõi của chiến dịch, được xây dựng dựa trên insight rằng giới trẻ thường xuyên phải "chuyển đổi mode" trong cuộc sống: mode học tập, mode giải trí, mode làm việc...
               </p>
               <p>
                 Chúng tôi muốn tạo ra một "mode" mới - <strong className="text-highlight">ÊM DẠ MODE</strong> - một trạng thái mà ở đó, dạ dày được chăm sóc tốt, cơ thể khỏe mạnh, và cuộc sống trở nên "mượt mà" hơn.
