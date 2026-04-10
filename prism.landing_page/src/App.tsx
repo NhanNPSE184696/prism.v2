@@ -38,7 +38,9 @@ function App() {
     if ('scrollRestoration' in window.history) {
       try {
         window.history.scrollRestoration = 'manual';
-      } catch {}
+      } catch {
+        // Ignore errors - some browsers may not support this property
+      }
     }
   }, []);
 
