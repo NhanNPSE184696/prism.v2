@@ -16,6 +16,7 @@ type BlogPost = {
   title: string;
   description: string;
   imageUrl: string;
+  imageFallbackUrl: string;
   referenceUrl: string;
 };
 
@@ -76,10 +77,30 @@ const normalizeImageUrl = (url: string) => {
   return withProtocol;
 };
 
+const extractGoogleDriveId = (url: string) => {
+  const filePathMatch = url.match(/drive\.google\.com\/file\/d\/([^/?#]+)/i);
+  if (filePathMatch?.[1]) return filePathMatch[1];
+
+  const idQueryMatch = url.match(/[?&]id=([^&]+)/i);
+  if (idQueryMatch?.[1]) return idQueryMatch[1];
+
+  return '';
+};
+
+const getImageFallbackUrl = (url: string) => {
+  if (!/drive\.google\.com/i.test(url)) return '';
+
+  const driveId = extractGoogleDriveId(url);
+  if (!driveId) return '';
+
+  return `https://drive.google.com/thumbnail?id=${driveId}&sz=w1600`;
+};
+
 const mapBlogRow = (row: RawBlogRow): BlogPost | null => {
   const title = row.title?.trim() ?? '';
   const description = row.description?.trim() ?? '';
   const imageUrl = normalizeImageUrl(row.ImageUrl ?? row.imageurl ?? '');
+  const imageFallbackUrl = getImageFallbackUrl(imageUrl);
   const referenceUrl = (row.ReferenceUrl ?? row.referenceurl ?? '').trim();
 
   if (!title || !description || !referenceUrl) return null;
@@ -89,6 +110,7 @@ const mapBlogRow = (row: RawBlogRow): BlogPost | null => {
     title,
     description,
     imageUrl,
+    imageFallbackUrl,
     referenceUrl,
   };
 };
@@ -505,7 +527,16 @@ const Test = () => {
                                       alt={blog.title}
                                       loading="lazy"
                                       referrerPolicy="no-referrer"
+                                      data-fallback-src={blog.imageFallbackUrl}
                                       onError={(event) => {
+                                        const fallbackSrc = event.currentTarget.dataset.fallbackSrc;
+
+                                        if (fallbackSrc && event.currentTarget.src !== fallbackSrc) {
+                                          event.currentTarget.dataset.fallbackSrc = '';
+                                          event.currentTarget.src = fallbackSrc;
+                                          return;
+                                        }
+
                                         console.error('Blog image load failed:', blog.imageUrl);
                                         event.currentTarget.style.display = 'none';
                                         const fallback = event.currentTarget.nextElementSibling as HTMLDivElement | null;
