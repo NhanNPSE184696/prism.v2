@@ -1,4 +1,4 @@
-import { useState, useEffect } from 'react';
+import { useState, useEffect, useRef } from 'react';
 import { useLocation } from 'react-router-dom';
 import Header from '../components/Header';
 import Footer from '../components/Footer';
@@ -131,8 +131,11 @@ const Test = () => {
   const [showSaveErrorToast, setShowSaveErrorToast] = useState(false);
   const [relatedBlogs, setRelatedBlogs] = useState<BlogPost[]>([]);
   const [isRelatedBlogsLoading, setIsRelatedBlogsLoading] = useState(false);
+  const [isRelatedBlogsPaused, setIsRelatedBlogsPaused] = useState(false);
   const [relatedBlogsError, setRelatedBlogsError] = useState('');
   const [userInfo, setUserInfo] = useState(INITIAL_USER_INFO);
+  const relatedBlogsMarqueeRef = useRef<HTMLDivElement | null>(null);
+  const resumeAutoScrollTimeoutRef = useRef<number | null>(null);
 
   const trimmedName = userInfo.name.trim();
   const trimmedEmail = userInfo.email.trim();
@@ -193,6 +196,55 @@ const Test = () => {
       cancelled = true;
     };
   }, [result]);
+
+  useEffect(() => {
+    if (relatedBlogs.length <= 1 || isRelatedBlogsLoading) return;
+
+    const marqueeElement = relatedBlogsMarqueeRef.current;
+    if (!marqueeElement) return;
+
+    const intervalId = window.setInterval(() => {
+      if (isRelatedBlogsPaused) return;
+
+      const halfTrackWidth = marqueeElement.scrollWidth / 2;
+      marqueeElement.scrollLeft += 1;
+
+      if (marqueeElement.scrollLeft >= halfTrackWidth) {
+        marqueeElement.scrollLeft = 0;
+      }
+    }, 24);
+
+    return () => {
+      window.clearInterval(intervalId);
+    };
+  }, [relatedBlogs, isRelatedBlogsLoading, isRelatedBlogsPaused]);
+
+  useEffect(() => {
+    return () => {
+      if (resumeAutoScrollTimeoutRef.current) {
+        window.clearTimeout(resumeAutoScrollTimeoutRef.current);
+      }
+    };
+  }, []);
+
+  const handleManualBlogScroll = (direction: 'prev' | 'next') => {
+    const marqueeElement = relatedBlogsMarqueeRef.current;
+    if (!marqueeElement) return;
+
+    setIsRelatedBlogsPaused(true);
+    marqueeElement.scrollBy({
+      left: direction === 'next' ? 320 : -320,
+      behavior: 'smooth',
+    });
+
+    if (resumeAutoScrollTimeoutRef.current) {
+      window.clearTimeout(resumeAutoScrollTimeoutRef.current);
+    }
+
+    resumeAutoScrollTimeoutRef.current = window.setTimeout(() => {
+      setIsRelatedBlogsPaused(false);
+    }, 2200);
+  };
 
   const handleStart = (event: React.FormEvent<HTMLFormElement>) => {
     event.preventDefault();
@@ -304,6 +356,7 @@ const Test = () => {
     setRelatedBlogs([]);
     setRelatedBlogsError('');
     setIsRelatedBlogsLoading(false);
+    setIsRelatedBlogsPaused(false);
   };
 
   // Intro Screen
@@ -494,7 +547,10 @@ const Test = () => {
                   </div>
 
                   <div className="test-related-blogs">
-                    <h3 className="test-related-blogs-title">Bài viết phù hợp với kết quả của bạn</h3>
+                    <div className="test-related-blogs-header">
+                      <h3 className="test-related-blogs-title">Bài viết phù hợp với kết quả của bạn</h3>
+                    </div>
+
                     {isRelatedBlogsLoading && (
                       <p className="test-related-blogs-message">Đang tải bài viết liên quan...</p>
                     )}
@@ -508,57 +564,87 @@ const Test = () => {
                     )}
 
                     {!isRelatedBlogsLoading && relatedBlogs.length > 0 && (
-                      <div className="test-related-blogs-marquee" aria-label="Danh sách bài viết liên quan">
-                        <div className={`test-related-blogs-track ${relatedBlogs.length > 1 ? 'is-animated' : ''}`}>
-                          {(relatedBlogs.length > 1 ? [...relatedBlogs, ...relatedBlogs] : relatedBlogs).map((blog, index) => (
-                            <a
-                              key={`${blog.id}-${index}`}
-                              className="test-related-blog-card"
-                              href={normalizeExternalUrl(blog.referenceUrl)}
-                              target="_blank"
-                              rel="noreferrer noopener"
-                            >
-                              <div className="test-related-blog-media">
-                                {blog.imageUrl ? (
-                                  <>
-                                    <img
-                                      className="test-related-blog-image"
-                                      src={blog.imageUrl}
-                                      alt={blog.title}
-                                      loading="lazy"
-                                      referrerPolicy="no-referrer"
-                                      data-fallback-src={blog.imageFallbackUrl}
-                                      onError={(event) => {
-                                        const fallbackSrc = event.currentTarget.dataset.fallbackSrc;
+                      <div className="test-related-blogs-carousel">
+                        {relatedBlogs.length > 1 && (
+                          <button
+                            type="button"
+                            className="test-related-blogs-control-btn test-related-blogs-control-btn-left"
+                            onClick={() => handleManualBlogScroll('prev')}
+                            aria-label="Lùi về bài trước"
+                          >
+                            <span className="material-symbols-outlined">chevron_left</span>
+                          </button>
+                        )}
 
-                                        if (fallbackSrc && event.currentTarget.src !== fallbackSrc) {
-                                          event.currentTarget.dataset.fallbackSrc = '';
-                                          event.currentTarget.src = fallbackSrc;
-                                          return;
-                                        }
+                        <div
+                          className="test-related-blogs-marquee"
+                          aria-label="Danh sách bài viết liên quan"
+                          ref={relatedBlogsMarqueeRef}
+                          onMouseEnter={() => setIsRelatedBlogsPaused(true)}
+                          onMouseLeave={() => setIsRelatedBlogsPaused(false)}
+                        >
+                          <div className="test-related-blogs-track">
+                            {(relatedBlogs.length > 1 ? [...relatedBlogs, ...relatedBlogs] : relatedBlogs).map((blog, index) => (
+                              <a
+                                key={`${blog.id}-${index}`}
+                                className="test-related-blog-card"
+                                href={normalizeExternalUrl(blog.referenceUrl)}
+                                target="_blank"
+                                rel="noreferrer noopener"
+                              >
+                                <div className="test-related-blog-media">
+                                  {blog.imageUrl ? (
+                                    <>
+                                      <img
+                                        className="test-related-blog-image"
+                                        src={blog.imageUrl}
+                                        alt={blog.title}
+                                        loading="lazy"
+                                        referrerPolicy="no-referrer"
+                                        data-fallback-src={blog.imageFallbackUrl}
+                                        onError={(event) => {
+                                          const fallbackSrc = event.currentTarget.dataset.fallbackSrc;
 
-                                        console.error('Blog image load failed:', blog.imageUrl);
-                                        event.currentTarget.style.display = 'none';
-                                        const fallback = event.currentTarget.nextElementSibling as HTMLDivElement | null;
-                                        if (fallback) fallback.style.display = 'flex';
-                                      }}
-                                    />
-                                    <div className="test-related-blog-image-fallback" style={{ display: 'none' }}>
-                                      Không có ảnh
-                                    </div>
-                                  </>
-                                ) : (
-                                  <div className="test-related-blog-image-fallback">Không có ảnh</div>
-                                )}
-                              </div>
+                                          if (fallbackSrc && event.currentTarget.src !== fallbackSrc) {
+                                            event.currentTarget.dataset.fallbackSrc = '';
+                                            event.currentTarget.src = fallbackSrc;
+                                            return;
+                                          }
 
-                              <div className="test-related-blog-content">
-                                <p className="test-related-blog-card-title">{blog.title}</p>
-                                <p className="test-related-blog-card-desc">{blog.description}</p>
-                              </div>
-                            </a>
-                          ))}
+                                          console.error('Blog image load failed:', blog.imageUrl);
+                                          event.currentTarget.style.display = 'none';
+                                          const fallback = event.currentTarget.nextElementSibling as HTMLDivElement | null;
+                                          if (fallback) fallback.style.display = 'flex';
+                                        }}
+                                      />
+                                      <div className="test-related-blog-image-fallback" style={{ display: 'none' }}>
+                                        Không có ảnh
+                                      </div>
+                                    </>
+                                  ) : (
+                                    <div className="test-related-blog-image-fallback">Không có ảnh</div>
+                                  )}
+                                </div>
+
+                                <div className="test-related-blog-content">
+                                  <p className="test-related-blog-card-title">{blog.title}</p>
+                                  <p className="test-related-blog-card-desc">{blog.description}</p>
+                                </div>
+                              </a>
+                            ))}
+                          </div>
                         </div>
+
+                        {relatedBlogs.length > 1 && (
+                          <button
+                            type="button"
+                            className="test-related-blogs-control-btn test-related-blogs-control-btn-right"
+                            onClick={() => handleManualBlogScroll('next')}
+                            aria-label="Tới bài tiếp theo"
+                          >
+                            <span className="material-symbols-outlined">chevron_right</span>
+                          </button>
+                        )}
                       </div>
                     )}
                   </div>
