@@ -11,6 +11,24 @@ import './Test.css';
 
 type ThemeTone = 'low' | 'mid' | 'high';
 
+type BlogPost = {
+  id: string;
+  title: string;
+  description: string;
+  imageUrl: string;
+  referenceUrl: string;
+};
+
+type RawBlogRow = {
+  id: number | string;
+  title: string | null;
+  description: string | null;
+  ImageUrl?: string | null;
+  imageurl?: string | null;
+  ReferenceUrl?: string | null;
+  referenceurl?: string | null;
+};
+
 const INITIAL_USER_INFO = {
   name: '',
   age: '',
@@ -33,6 +51,48 @@ const trackGaEvent = (eventName: string, params: Record<string, string | number 
   gtag('event', eventName, params);
 };
 
+const normalizeExternalUrl = (url: string) => {
+  if (/^https?:\/\//i.test(url)) return url;
+  return `https://${url}`;
+};
+
+const normalizeImageUrl = (url: string) => {
+  const trimmed = url.trim();
+  if (!trimmed) return '';
+
+  const withProtocol = /^https?:\/\//i.test(trimmed) ? trimmed : `https://${trimmed}`;
+
+  // Convert common Google Drive sharing URL to a direct image endpoint.
+  const driveMatch = withProtocol.match(/drive\.google\.com\/file\/d\/([^/]+)/i);
+  if (driveMatch?.[1]) {
+    return `https://drive.google.com/uc?export=view&id=${driveMatch[1]}`;
+  }
+
+  // Convert common Dropbox sharing URL to direct raw file URL.
+  if (/dropbox\.com/i.test(withProtocol)) {
+    return withProtocol.replace(/[?&]dl=0/i, '?raw=1').replace(/[?&]dl=1/i, '?raw=1');
+  }
+
+  return withProtocol;
+};
+
+const mapBlogRow = (row: RawBlogRow): BlogPost | null => {
+  const title = row.title?.trim() ?? '';
+  const description = row.description?.trim() ?? '';
+  const imageUrl = normalizeImageUrl(row.ImageUrl ?? row.imageurl ?? '');
+  const referenceUrl = (row.ReferenceUrl ?? row.referenceurl ?? '').trim();
+
+  if (!title || !description || !referenceUrl) return null;
+
+  return {
+    id: String(row.id),
+    title,
+    description,
+    imageUrl,
+    referenceUrl,
+  };
+};
+
 const Test = () => {
   const location = useLocation();
   
@@ -47,6 +107,9 @@ const Test = () => {
   const [saveErrorMessage, setSaveErrorMessage] = useState('');
   const [showSaveSuccessToast, setShowSaveSuccessToast] = useState(false);
   const [showSaveErrorToast, setShowSaveErrorToast] = useState(false);
+  const [relatedBlogs, setRelatedBlogs] = useState<BlogPost[]>([]);
+  const [isRelatedBlogsLoading, setIsRelatedBlogsLoading] = useState(false);
+  const [relatedBlogsError, setRelatedBlogsError] = useState('');
   const [userInfo, setUserInfo] = useState(INITIAL_USER_INFO);
 
   const trimmedName = userInfo.name.trim();
@@ -62,6 +125,52 @@ const Test = () => {
   useEffect(() => {
     window.scrollTo({ top: 0, behavior: 'instant' as ScrollBehavior });
   }, [started, result]);
+
+  useEffect(() => {
+    if (!result || !isSupabaseConfigured || !supabase) return;
+
+    let cancelled = false;
+
+    void (async () => {
+      setIsRelatedBlogsLoading(true);
+      setRelatedBlogsError('');
+
+      const { data, error } = await supabase
+        .from('Blog')
+        .select('id, title, description, ImageUrl, ReferenceUrl')
+        .eq('category', result.cls)
+        .order('created_at', { ascending: false })
+        .limit(12);
+
+      if (cancelled) return;
+
+      if (error) {
+        console.error('Supabase select error (Blog):', {
+          code: error.code,
+          message: error.message,
+          details: error.details,
+          hint: error.hint,
+          category: result.cls,
+        });
+        setRelatedBlogs([]);
+        setRelatedBlogsError('Không tải được bài viết liên quan lúc này.');
+        setIsRelatedBlogsLoading(false);
+        return;
+      }
+
+      const mappedBlogs = ((data ?? []) as RawBlogRow[])
+        .map(mapBlogRow)
+        .filter((blog): blog is BlogPost => blog !== null);
+
+      setRelatedBlogs(mappedBlogs);
+      setRelatedBlogsError('');
+      setIsRelatedBlogsLoading(false);
+    })();
+
+    return () => {
+      cancelled = true;
+    };
+  }, [result]);
 
   const handleStart = (event: React.FormEvent<HTMLFormElement>) => {
     event.preventDefault();
@@ -170,6 +279,9 @@ const Test = () => {
     setSaveErrorMessage('');
     setShowSaveSuccessToast(false);
     setShowSaveErrorToast(false);
+    setRelatedBlogs([]);
+    setRelatedBlogsError('');
+    setIsRelatedBlogsLoading(false);
   };
 
   // Intro Screen
@@ -357,6 +469,67 @@ const Test = () => {
                   <div className="test-result-section test-result-section-highlight">
                     <h3 className="test-result-section-title">Khuyến nghị:</h3>
                     <p className="test-result-section-text test-result-tip">{result.resultTip}</p>
+                  </div>
+
+                  <div className="test-related-blogs">
+                    <h3 className="test-related-blogs-title">Bài viết phù hợp với kết quả của bạn</h3>
+                    {isRelatedBlogsLoading && (
+                      <p className="test-related-blogs-message">Đang tải bài viết liên quan...</p>
+                    )}
+
+                    {!isRelatedBlogsLoading && relatedBlogsError && (
+                      <p className="test-related-blogs-message test-related-blogs-message-error">{relatedBlogsError}</p>
+                    )}
+
+                    {!isRelatedBlogsLoading && !relatedBlogsError && relatedBlogs.length === 0 && (
+                      <p className="test-related-blogs-message">Hiện chưa có bài viết cho nhóm kết quả này.</p>
+                    )}
+
+                    {!isRelatedBlogsLoading && relatedBlogs.length > 0 && (
+                      <div className="test-related-blogs-marquee" aria-label="Danh sách bài viết liên quan">
+                        <div className={`test-related-blogs-track ${relatedBlogs.length > 1 ? 'is-animated' : ''}`}>
+                          {(relatedBlogs.length > 1 ? [...relatedBlogs, ...relatedBlogs] : relatedBlogs).map((blog, index) => (
+                            <a
+                              key={`${blog.id}-${index}`}
+                              className="test-related-blog-card"
+                              href={normalizeExternalUrl(blog.referenceUrl)}
+                              target="_blank"
+                              rel="noreferrer noopener"
+                            >
+                              <div className="test-related-blog-media">
+                                {blog.imageUrl ? (
+                                  <>
+                                    <img
+                                      className="test-related-blog-image"
+                                      src={blog.imageUrl}
+                                      alt={blog.title}
+                                      loading="lazy"
+                                      referrerPolicy="no-referrer"
+                                      onError={(event) => {
+                                        console.error('Blog image load failed:', blog.imageUrl);
+                                        event.currentTarget.style.display = 'none';
+                                        const fallback = event.currentTarget.nextElementSibling as HTMLDivElement | null;
+                                        if (fallback) fallback.style.display = 'flex';
+                                      }}
+                                    />
+                                    <div className="test-related-blog-image-fallback" style={{ display: 'none' }}>
+                                      Không có ảnh
+                                    </div>
+                                  </>
+                                ) : (
+                                  <div className="test-related-blog-image-fallback">Không có ảnh</div>
+                                )}
+                              </div>
+
+                              <div className="test-related-blog-content">
+                                <p className="test-related-blog-card-title">{blog.title}</p>
+                                <p className="test-related-blog-card-desc">{blog.description}</p>
+                              </div>
+                            </a>
+                          ))}
+                        </div>
+                      </div>
+                    )}
                   </div>
 
                   <div className="test-result-actions">
