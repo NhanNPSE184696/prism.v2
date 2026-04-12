@@ -1,4 +1,4 @@
-import { useState, useEffect } from 'react';
+import { useState, useEffect, useRef } from 'react';
 import { useLocation } from 'react-router-dom';
 import Header from '../components/Header';
 import Footer from '../components/Footer';
@@ -10,6 +10,25 @@ import type { TestResult } from '../types';
 import './Test.css';
 
 type ThemeTone = 'low' | 'mid' | 'high';
+
+type BlogPost = {
+  id: string;
+  title: string;
+  description: string;
+  imageUrl: string;
+  imageFallbackUrl: string;
+  referenceUrl: string;
+};
+
+type RawBlogRow = {
+  id: number | string;
+  title: string | null;
+  description: string | null;
+  ImageUrl?: string | null;
+  imageurl?: string | null;
+  ReferenceUrl?: string | null;
+  referenceurl?: string | null;
+};
 
 const INITIAL_USER_INFO = {
   name: '',
@@ -33,6 +52,69 @@ const trackGaEvent = (eventName: string, params: Record<string, string | number 
   gtag('event', eventName, params);
 };
 
+const normalizeExternalUrl = (url: string) => {
+  if (/^https?:\/\//i.test(url)) return url;
+  return `https://${url}`;
+};
+
+const normalizeImageUrl = (url: string) => {
+  const trimmed = url.trim();
+  if (!trimmed) return '';
+
+  const withProtocol = /^https?:\/\//i.test(trimmed) ? trimmed : `https://${trimmed}`;
+
+  // Convert common Google Drive sharing URL to a direct image endpoint.
+  const driveMatch = withProtocol.match(/drive\.google\.com\/file\/d\/([^/]+)/i);
+  if (driveMatch?.[1]) {
+    return `https://drive.google.com/uc?export=view&id=${driveMatch[1]}`;
+  }
+
+  // Convert common Dropbox sharing URL to direct raw file URL.
+  if (/dropbox\.com/i.test(withProtocol)) {
+    return withProtocol.replace(/[?&]dl=0/i, '?raw=1').replace(/[?&]dl=1/i, '?raw=1');
+  }
+
+  return withProtocol;
+};
+
+const extractGoogleDriveId = (url: string) => {
+  const filePathMatch = url.match(/drive\.google\.com\/file\/d\/([^/?#]+)/i);
+  if (filePathMatch?.[1]) return filePathMatch[1];
+
+  const idQueryMatch = url.match(/[?&]id=([^&]+)/i);
+  if (idQueryMatch?.[1]) return idQueryMatch[1];
+
+  return '';
+};
+
+const getImageFallbackUrl = (url: string) => {
+  if (!/drive\.google\.com/i.test(url)) return '';
+
+  const driveId = extractGoogleDriveId(url);
+  if (!driveId) return '';
+
+  return `https://drive.google.com/thumbnail?id=${driveId}&sz=w1600`;
+};
+
+const mapBlogRow = (row: RawBlogRow): BlogPost | null => {
+  const title = row.title?.trim() ?? '';
+  const description = row.description?.trim() ?? '';
+  const imageUrl = normalizeImageUrl(row.ImageUrl ?? row.imageurl ?? '');
+  const imageFallbackUrl = getImageFallbackUrl(imageUrl);
+  const referenceUrl = (row.ReferenceUrl ?? row.referenceurl ?? '').trim();
+
+  if (!title || !description || !referenceUrl) return null;
+
+  return {
+    id: String(row.id),
+    title,
+    description,
+    imageUrl,
+    imageFallbackUrl,
+    referenceUrl,
+  };
+};
+
 const Test = () => {
   const location = useLocation();
   
@@ -47,7 +129,13 @@ const Test = () => {
   const [saveErrorMessage, setSaveErrorMessage] = useState('');
   const [showSaveSuccessToast, setShowSaveSuccessToast] = useState(false);
   const [showSaveErrorToast, setShowSaveErrorToast] = useState(false);
+  const [relatedBlogs, setRelatedBlogs] = useState<BlogPost[]>([]);
+  const [isRelatedBlogsLoading, setIsRelatedBlogsLoading] = useState(false);
+  const [isRelatedBlogsPaused, setIsRelatedBlogsPaused] = useState(false);
+  const [relatedBlogsError, setRelatedBlogsError] = useState('');
   const [userInfo, setUserInfo] = useState(INITIAL_USER_INFO);
+  const relatedBlogsMarqueeRef = useRef<HTMLDivElement | null>(null);
+  const resumeAutoScrollTimeoutRef = useRef<number | null>(null);
 
   const trimmedName = userInfo.name.trim();
   const trimmedEmail = userInfo.email.trim();
@@ -62,6 +150,101 @@ const Test = () => {
   useEffect(() => {
     window.scrollTo({ top: 0, behavior: 'instant' as ScrollBehavior });
   }, [started, result]);
+
+  useEffect(() => {
+    if (!result || !isSupabaseConfigured || !supabase) return;
+
+    let cancelled = false;
+
+    void (async () => {
+      setIsRelatedBlogsLoading(true);
+      setRelatedBlogsError('');
+
+      const { data, error } = await supabase
+        .from('Blog')
+        .select('id, title, description, ImageUrl, ReferenceUrl')
+        .eq('category', result.cls)
+        .order('created_at', { ascending: false })
+        .limit(12);
+
+      if (cancelled) return;
+
+      if (error) {
+        console.error('Supabase select error (Blog):', {
+          code: error.code,
+          message: error.message,
+          details: error.details,
+          hint: error.hint,
+          category: result.cls,
+        });
+        setRelatedBlogs([]);
+        setRelatedBlogsError('Không tải được bài viết liên quan lúc này.');
+        setIsRelatedBlogsLoading(false);
+        return;
+      }
+
+      const mappedBlogs = ((data ?? []) as RawBlogRow[])
+        .map(mapBlogRow)
+        .filter((blog): blog is BlogPost => blog !== null);
+
+      setRelatedBlogs(mappedBlogs);
+      setRelatedBlogsError('');
+      setIsRelatedBlogsLoading(false);
+    })();
+
+    return () => {
+      cancelled = true;
+    };
+  }, [result]);
+
+  useEffect(() => {
+    if (relatedBlogs.length <= 1 || isRelatedBlogsLoading) return;
+
+    const marqueeElement = relatedBlogsMarqueeRef.current;
+    if (!marqueeElement) return;
+
+    const intervalId = window.setInterval(() => {
+      if (isRelatedBlogsPaused) return;
+
+      const halfTrackWidth = marqueeElement.scrollWidth / 2;
+      marqueeElement.scrollLeft += 1;
+
+      if (marqueeElement.scrollLeft >= halfTrackWidth) {
+        marqueeElement.scrollLeft = 0;
+      }
+    }, 24);
+
+    return () => {
+      window.clearInterval(intervalId);
+    };
+  }, [relatedBlogs, isRelatedBlogsLoading, isRelatedBlogsPaused]);
+
+  useEffect(() => {
+    return () => {
+      if (resumeAutoScrollTimeoutRef.current) {
+        window.clearTimeout(resumeAutoScrollTimeoutRef.current);
+      }
+    };
+  }, []);
+
+  const handleManualBlogScroll = (direction: 'prev' | 'next') => {
+    const marqueeElement = relatedBlogsMarqueeRef.current;
+    if (!marqueeElement) return;
+
+    setIsRelatedBlogsPaused(true);
+    marqueeElement.scrollBy({
+      left: direction === 'next' ? 320 : -320,
+      behavior: 'smooth',
+    });
+
+    if (resumeAutoScrollTimeoutRef.current) {
+      window.clearTimeout(resumeAutoScrollTimeoutRef.current);
+    }
+
+    resumeAutoScrollTimeoutRef.current = window.setTimeout(() => {
+      setIsRelatedBlogsPaused(false);
+    }, 2200);
+  };
 
   const handleStart = (event: React.FormEvent<HTMLFormElement>) => {
     event.preventDefault();
@@ -170,6 +353,10 @@ const Test = () => {
     setSaveErrorMessage('');
     setShowSaveSuccessToast(false);
     setShowSaveErrorToast(false);
+    setRelatedBlogs([]);
+    setRelatedBlogsError('');
+    setIsRelatedBlogsLoading(false);
+    setIsRelatedBlogsPaused(false);
   };
 
   // Intro Screen
@@ -357,6 +544,109 @@ const Test = () => {
                   <div className="test-result-section test-result-section-highlight">
                     <h3 className="test-result-section-title">Khuyến nghị:</h3>
                     <p className="test-result-section-text test-result-tip">{result.resultTip}</p>
+                  </div>
+
+                  <div className="test-related-blogs">
+                    <div className="test-related-blogs-header">
+                      <h3 className="test-related-blogs-title">Bài viết phù hợp với kết quả của bạn</h3>
+                    </div>
+
+                    {isRelatedBlogsLoading && (
+                      <p className="test-related-blogs-message">Đang tải bài viết liên quan...</p>
+                    )}
+
+                    {!isRelatedBlogsLoading && relatedBlogsError && (
+                      <p className="test-related-blogs-message test-related-blogs-message-error">{relatedBlogsError}</p>
+                    )}
+
+                    {!isRelatedBlogsLoading && !relatedBlogsError && relatedBlogs.length === 0 && (
+                      <p className="test-related-blogs-message">Hiện chưa có bài viết cho nhóm kết quả này.</p>
+                    )}
+
+                    {!isRelatedBlogsLoading && relatedBlogs.length > 0 && (
+                      <div className="test-related-blogs-carousel">
+                        {relatedBlogs.length > 1 && (
+                          <button
+                            type="button"
+                            className="test-related-blogs-control-btn test-related-blogs-control-btn-left"
+                            onClick={() => handleManualBlogScroll('prev')}
+                            aria-label="Lùi về bài trước"
+                          >
+                            <span className="material-symbols-outlined">chevron_left</span>
+                          </button>
+                        )}
+
+                        <div
+                          className="test-related-blogs-marquee"
+                          aria-label="Danh sách bài viết liên quan"
+                          ref={relatedBlogsMarqueeRef}
+                          onMouseEnter={() => setIsRelatedBlogsPaused(true)}
+                          onMouseLeave={() => setIsRelatedBlogsPaused(false)}
+                        >
+                          <div className="test-related-blogs-track">
+                            {(relatedBlogs.length > 1 ? [...relatedBlogs, ...relatedBlogs] : relatedBlogs).map((blog, index) => (
+                              <a
+                                key={`${blog.id}-${index}`}
+                                className="test-related-blog-card"
+                                href={normalizeExternalUrl(blog.referenceUrl)}
+                                target="_blank"
+                                rel="noreferrer noopener"
+                              >
+                                <div className="test-related-blog-media">
+                                  {blog.imageUrl ? (
+                                    <>
+                                      <img
+                                        className="test-related-blog-image"
+                                        src={blog.imageUrl}
+                                        alt={blog.title}
+                                        loading="lazy"
+                                        referrerPolicy="no-referrer"
+                                        data-fallback-src={blog.imageFallbackUrl}
+                                        onError={(event) => {
+                                          const fallbackSrc = event.currentTarget.dataset.fallbackSrc;
+
+                                          if (fallbackSrc && event.currentTarget.src !== fallbackSrc) {
+                                            event.currentTarget.dataset.fallbackSrc = '';
+                                            event.currentTarget.src = fallbackSrc;
+                                            return;
+                                          }
+
+                                          console.error('Blog image load failed:', blog.imageUrl);
+                                          event.currentTarget.style.display = 'none';
+                                          const fallback = event.currentTarget.nextElementSibling as HTMLDivElement | null;
+                                          if (fallback) fallback.style.display = 'flex';
+                                        }}
+                                      />
+                                      <div className="test-related-blog-image-fallback" style={{ display: 'none' }}>
+                                        Không có ảnh
+                                      </div>
+                                    </>
+                                  ) : (
+                                    <div className="test-related-blog-image-fallback">Không có ảnh</div>
+                                  )}
+                                </div>
+
+                                <div className="test-related-blog-content">
+                                  <p className="test-related-blog-card-title">{blog.title}</p>
+                                  <p className="test-related-blog-card-desc">{blog.description}</p>
+                                </div>
+                              </a>
+                            ))}
+                          </div>
+                        </div>
+
+                        {relatedBlogs.length > 1 && (
+                          <button
+                            type="button"
+                            className="test-related-blogs-control-btn test-related-blogs-control-btn-right"
+                            onClick={() => handleManualBlogScroll('next')}
+                            aria-label="Tới bài tiếp theo"
+                          >
+                            <span className="material-symbols-outlined">chevron_right</span>
+                          </button>
+                        )}
+                      </div>
+                    )}
                   </div>
 
                   <div className="test-result-actions">
