@@ -548,7 +548,7 @@ const Test = () => {
 
                   <div className="test-related-blogs">
                     <div className="test-related-blogs-header">
-                      <h3 className="test-related-blogs-title">Bài viết phù hợp với kết quả của bạn</h3>
+                      <h3 className="test-related-blogs-title">Tìm hiểu thêm những thông tin liên quan để chăm sóc dạ dày</h3>
                     </div>
 
                     {isRelatedBlogsLoading && (
